@@ -1,0 +1,26 @@
+# Proteções do projeto contra operações destrutivas.
+# Estas regras controlam comandos; as regras de desenvolvimento ficam em AGENTS.md.
+
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "Não apagar alterações do projeto. Use uma alternativa reversível e peça confirmação explícita."
+)
+
+prefix_rule(
+    pattern = ["git", "clean", "-fd"],
+    decision = "forbidden",
+    justification = "Não remover arquivos não rastreados do projeto. Liste e avalie os arquivos antes de qualquer limpeza."
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--force"],
+    decision = "forbidden",
+    justification = "Não sobrescrever o histórico remoto. Use um fluxo seguro de integração."
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "Não remover diretórios recursivamente sem uma operação específica e reversível."
+)
