@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard | CondoGestor</title>
     <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/dados.js"></script>
     <script src="../js/script.js" defer></script>
   </head>
 
@@ -43,12 +44,16 @@
             =
           </button>
           <span class="topbar-context">Visão geral do condomínio</span>
-          <div class="user-summary">
+          <div class="user-summary" data-user-menu>
             <span class="avatar" aria-hidden="true">AS</span>
             <div>
-              <span class="user-name">Ana Souza</span
-              ><span class="user-role">índica</span>
+              <span class="user-name">Vinicius</span
+              ><span class="user-role">Sindico</span>
             </div>
+            <nav class="user-dropdown" aria-label="Menu do usuario">
+              <button type="button" data-action="theme">Mudar tema</button>
+              <button type="button" data-action="logout">Sair da conta</button>
+            </nav>
           </div>
         </header>
 
@@ -60,11 +65,6 @@
               <p>
                 Acompanhe os principais movimentos do condomínio em um so lugar.
               </p>
-            </div>
-            <div class="header-actions">
-              <a class="button button-primary" href="cadastro-morador.html"
-                >Novo morador</a
-              >
             </div>
           </header>
           <section class="grid grid-4" aria-label="Indicadores do condomínio">
