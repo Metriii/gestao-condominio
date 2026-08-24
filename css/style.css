@@ -1,23 +1,23 @@
 :root {
-  --color-primary: #1f5d55;
-  --color-primary-dark: #174740;
-  --color-primary-soft: #e6f2ef;
-  --color-accent: #d28c3f;
-  --color-accent-soft: #fbf1e4;
+  --color-primary: #666666;
+  --color-primary-dark: #111111;
+  --color-primary-soft: #e5e5e5;
+  --color-accent: #666666;
+  --color-accent-soft: #e5e5e5;
   --color-surface: #ffffff;
-  --color-background: #f5f7f6;
-  --color-sidebar: #163d3a;
-  --color-text: #20302f;
-  --color-muted: #6c7b79;
-  --color-border: #dfe7e4;
-  --color-success: #2c8661;
-  --color-success-soft: #e5f4ed;
-  --color-warning: #a76a17;
-  --color-warning-soft: #fff3df;
-  --color-danger: #b54a4a;
-  --color-danger-soft: #fbeaea;
-  --shadow-sm: 0 2px 8px rgba(22, 61, 58, 0.06);
-  --shadow-md: 0 10px 28px rgba(22, 61, 58, 0.08);
+  --color-background: #ffffff;
+  --color-sidebar: #111111;
+  --color-text: #111111;
+  --color-muted: #666666;
+  --color-border: #e5e5e5;
+  --color-success: #666666;
+  --color-success-soft: #e5e5e5;
+  --color-warning: #666666;
+  --color-warning-soft: #e5e5e5;
+  --color-danger: #111111;
+  --color-danger-soft: #e5e5e5;
+  --shadow-sm: 0 2px 8px rgba(17, 17, 17, 0.06);
+  --shadow-md: 0 10px 28px rgba(17, 17, 17, 0.08);
   --radius-sm: 6px;
   --radius-md: 8px;
   --content-width: 1440px;
@@ -69,7 +69,7 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 3px solid rgba(210, 140, 63, 0.55);
+  outline: 3px solid rgba(102, 102, 102, 0.55);
   outline-offset: 2px;
 }
 
@@ -454,7 +454,7 @@ h3 {
 }
 
 .data-table th {
-  background: #fbfcfc;
+  background: var(--color-surface);
   color: var(--color-muted);
   font-size: 11px;
   font-weight: 700;
@@ -471,7 +471,7 @@ h3 {
 }
 
 .data-table tbody tr:hover {
-  background: #fcfdfd;
+  background: var(--color-primary-soft);
 }
 
 .person-cell strong,
@@ -513,7 +513,7 @@ h3 {
 }
 
 .status-neutral {
-  background: #eef2f1;
+  background: var(--color-primary-soft);
   color: var(--color-muted);
 }
 
@@ -553,7 +553,7 @@ h3 {
   height: 8px;
   overflow: hidden;
   border-radius: 999px;
-  background: #e9efed;
+  background: var(--color-border);
 }
 
 .progress-value {
@@ -610,7 +610,7 @@ h3 {
 
 .form-field input::placeholder,
 .form-field textarea::placeholder {
-  color: #9aa8a5;
+  color: var(--color-muted);
 }
 
 .form-field input:focus,
@@ -618,7 +618,7 @@ h3 {
 .form-field textarea:focus {
   border-color: var(--color-primary);
   outline: 0;
-  box-shadow: 0 0 0 3px rgba(31, 93, 85, 0.12);
+  box-shadow: 0 0 0 3px rgba(102, 102, 102, 0.18);
 }
 
 .field-help {
@@ -688,7 +688,7 @@ h3 {
 }
 
 .notice-info {
-  border-color: #c8e1dc;
+  border-color: var(--color-border);
   background: var(--color-primary-soft);
   color: var(--color-primary-dark);
 }
@@ -879,7 +879,7 @@ h3 {
     z-index: 10;
     display: block;
     inset: 0;
-    background: rgba(16, 40, 38, 0.44);
+    background: rgba(17, 17, 17, 0.44);
   }
 
   .login-page {
