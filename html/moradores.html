@@ -1,36 +1,170 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moradores | CondoGestao</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/script.js" defer></script>
-</head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar" data-sidebar id="main-navigation">
-      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">C</span><span><span class="brand-name">CondoGestao</span><span class="brand-caption">Sistema de condominios</span></span></a>
-      <p class="sidebar-section-label">Menu principal</p>
-      <nav class="main-nav" aria-label="Menu principal"><a href="index.html">Dashboard</a><a href="moradores.html" aria-current="page">Moradores</a><a href="unidades.html">Unidades</a><a href="ocorrencias.html">Ocorrencias</a><a href="reservas.html">Reservas</a></nav>
-      <div class="sidebar-footer">Dados demonstrativos da V1</div>
-    </aside>
-    <div class="overlay" data-overlay></div>
-    <main class="main-content">
-      <header class="topbar"><button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false" aria-label="Abrir menu">=</button><span class="topbar-context">Cadastro e relacionamento</span><div class="user-summary"><span class="avatar" aria-hidden="true">AS</span><div><span class="user-name">Ana Souza</span><span class="user-role">Sindica</span></div></div></header>
-      <div class="page-container">
-        <header class="page-header"><div><p class="breadcrumb">Inicio / Moradores</p><h1>Moradores</h1><p>Consulte as pessoas vinculadas as unidades do condominio.</p></div><div class="header-actions"><a class="button button-primary" href="cadastro-morador.html">Cadastrar morador</a></div></header>
-        <section class="card">
-          <div class="filter-bar"><div class="form-field"><label for="search-residents">Buscar morador</label><input id="search-residents" type="search" placeholder="Nome ou unidade"></div><div class="form-field"><label for="resident-status">Situacao</label><select id="resident-status"><option>Todos</option><option>Ativo</option><option>Inativo</option></select></div><button class="button button-secondary" type="button">Filtrar</button></div>
-          <div class="table-wrapper"><table class="data-table"><thead><tr><th>Morador</th><th>Unidade</th><th>Telefone</th><th>Situacao</th><th>Acoes</th></tr></thead><tbody>
-            <tr><td class="person-cell"><strong>Marina Costa</strong><span>marina.costa@email.com</span></td><td>Bloco A, 302</td><td>(11) 98888-1234</td><td><span class="status status-success">Ativo</span></td><td><a class="button button-secondary button-small" href="morador.html">Ver detalhes</a></td></tr>
-            <tr><td class="person-cell"><strong>Rafael Almeida</strong><span>rafael.almeida@email.com</span></td><td>Bloco B, 204</td><td>(11) 97777-4567</td><td><span class="status status-success">Ativo</span></td><td><a class="button button-secondary button-small" href="morador.html">Ver detalhes</a></td></tr>
-            <tr><td class="person-cell"><strong>Beatriz Martins</strong><span>beatriz.martins@email.com</span></td><td>Bloco A, 101</td><td>(11) 96666-7890</td><td><span class="status status-success">Ativo</span></td><td><a class="button button-secondary button-small" href="morador.html">Ver detalhes</a></td></tr>
-            <tr><td class="person-cell"><strong>Joao Ribeiro</strong><span>joao.ribeiro@email.com</span></td><td>Bloco B, 401</td><td>(11) 95555-0123</td><td><span class="status status-neutral">Inativo</span></td><td><a class="button button-secondary button-small" href="morador.html">Ver detalhes</a></td></tr>
-          </tbody></table></div>
-        </section>
-      </div>
-    </main>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moradores | CondoGestao</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" data-sidebar id="main-navigation">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark" aria-hidden="true">C</span
+          ><span
+            ><span class="brand-name">CondoGestao</span
+            ><span class="brand-caption">Sistema de condominios</span></span
+          ></a
+        >
+        <p class="sidebar-section-label">Menu principal</p>
+        <nav class="main-nav" aria-label="Menu principal">
+          <a href="index.html">Dashboard</a
+          ><a href="moradores.html" aria-current="page">Moradores</a
+          ><a href="unidades.html">Unidades</a
+          ><a href="ocorrencias.html">Ocorrencias</a
+          ><a href="reservas.html">Reservas</a>
+        </nav>
+        <div class="sidebar-footer">Dados demonstrativos da V1</div>
+      </aside>
+      <div class="overlay" data-overlay></div>
+      <main class="main-content">
+        <header class="topbar">
+          <button
+            class="menu-toggle"
+            type="button"
+            data-menu-toggle
+            aria-controls="main-navigation"
+            aria-expanded="false"
+            aria-label="Abrir menu"
+          >
+            =</button
+          ><span class="topbar-context">Cadastro e relacionamento</span>
+          <div class="user-summary">
+            <span class="avatar" aria-hidden="true">AS</span>
+            <div>
+              <span class="user-name">Ana Souza</span
+              ><span class="user-role">Sindica</span>
+            </div>
+          </div>
+        </header>
+        <div class="page-container">
+          <header class="page-header">
+            <div>
+              <p class="breadcrumb">Inicio / Moradores</p>
+              <h1>Moradores</h1>
+              <p>Consulte as pessoas vinculadas as unidades do condominio.</p>
+            </div>
+            <div class="header-actions">
+              <a class="button button-primary" href="cadastro-morador.html"
+                >Cadastrar morador</a
+              >
+            </div>
+          </header>
+          <section class="card">
+            <div class="filter-bar">
+              <div class="form-field">
+                <label for="search-residents">Buscar morador</label
+                ><input
+                  id="search-residents"
+                  type="search"
+                  placeholder="Nome ou unidade"
+                />
+              </div>
+              <div class="form-field">
+                <label for="resident-status">Situacao</label
+                ><select id="resident-status">
+                  <option>Todos</option>
+                  <option>Ativo</option>
+                  <option>Inativo</option>
+                </select>
+              </div>
+              <button class="button button-secondary" type="button">
+                Filtrar
+              </button>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Morador</th>
+                    <th>Unidade</th>
+                    <th>Telefone</th>
+                    <th>Situacao</th>
+                    <th>Acoes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="person-cell">
+                      <strong>Marina Costa</strong
+                      ><span>marina.costa@email.com</span>
+                    </td>
+                    <td>Bloco A, 302</td>
+                    <td>(11) 98888-1234</td>
+                    <td><span class="status status-success">Ativo</span></td>
+                    <td>
+                      <a
+                        class="button button-secondary button-small"
+                        href="morador.html"
+                        >Ver detalhes</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="person-cell">
+                      <strong>Rafael Almeida</strong
+                      ><span>rafael.almeida@email.com</span>
+                    </td>
+                    <td>Bloco B, 204</td>
+                    <td>(11) 97777-4567</td>
+                    <td><span class="status status-success">Ativo</span></td>
+                    <td>
+                      <a
+                        class="button button-secondary button-small"
+                        href="morador.html"
+                        >Ver detalhes</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="person-cell">
+                      <strong>Beatriz Martins</strong
+                      ><span>beatriz.martins@email.com</span>
+                    </td>
+                    <td>Bloco A, 101</td>
+                    <td>(11) 96666-7890</td>
+                    <td><span class="status status-success">Ativo</span></td>
+                    <td>
+                      <a
+                        class="button button-secondary button-small"
+                        href="morador.html"
+                        >Ver detalhes</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="person-cell">
+                      <strong>Joao Ribeiro</strong
+                      ><span>joao.ribeiro@email.com</span>
+                    </td>
+                    <td>Bloco B, 401</td>
+                    <td>(11) 95555-0123</td>
+                    <td><span class="status status-neutral">Inativo</span></td>
+                    <td>
+                      <a
+                        class="button button-secondary button-small"
+                        href="morador.html"
+                        >Ver detalhes</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>

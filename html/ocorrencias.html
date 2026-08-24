@@ -1,19 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ocorrencias | CondoGestao</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/script.js" defer></script>
-</head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar" data-sidebar id="main-navigation"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">C</span><span><span class="brand-name">CondoGestao</span><span class="brand-caption">Sistema de condominios</span></span></a><p class="sidebar-section-label">Menu principal</p><nav class="main-nav" aria-label="Menu principal"><a href="index.html">Dashboard</a><a href="moradores.html">Moradores</a><a href="unidades.html">Unidades</a><a href="ocorrencias.html" aria-current="page">Ocorrencias</a><a href="reservas.html">Reservas</a></nav><div class="sidebar-footer">Dados demonstrativos da V1</div></aside>
-    <div class="overlay" data-overlay></div><main class="main-content"><header class="topbar"><button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false" aria-label="Abrir menu">=</button><span class="topbar-context">Acompanhamento de chamados</span><div class="user-summary"><span class="avatar" aria-hidden="true">AS</span><div><span class="user-name">Ana Souza</span><span class="user-role">Sindica</span></div></div></header>
-      <div class="page-container"><header class="page-header"><div><p class="breadcrumb">Inicio / Ocorrencias</p><h1>Ocorrencias</h1><p>Registre e acompanhe situacoes que precisam de atencao no condominio.</p></div><div class="header-actions"><button class="button button-primary" type="button">Registrar ocorrencia</button></div></header>
-        <section class="card"><div class="filter-bar"><div class="form-field"><label for="occurrence-status">Status</label><select id="occurrence-status"><option>Todos os status</option><option>Em analise</option><option>Em andamento</option><option>Concluida</option></select></div><div class="form-field"><label for="occurrence-search">Buscar</label><input id="occurrence-search" type="search" placeholder="Titulo ou unidade"></div><button class="button button-secondary" type="button">Filtrar</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Ocorrencia</th><th>Local</th><th>Data</th><th>Responsavel</th><th>Status</th></tr></thead><tbody><tr><td class="item-cell"><strong>Vazamento no banheiro</strong><span>Registro #024</span></td><td>Bloco B, 204</td><td>18/08/2026</td><td>Administracao</td><td><span class="status status-warning">Em analise</span></td></tr><tr><td class="item-cell"><strong>Lampada queimada</strong><span>Registro #023</span></td><td>Garagem B</td><td>17/08/2026</td><td>Manutencao</td><td><span class="status status-success">Em andamento</span></td></tr><tr><td class="item-cell"><strong>Portao com ruido</strong><span>Registro #022</span></td><td>Entrada principal</td><td>15/08/2026</td><td>Manutencao</td><td><span class="status status-neutral">Concluida</span></td></tr></tbody></table></div></section>
-      </div></main>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ocorrencias | CondoGestao</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" data-sidebar id="main-navigation">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark" aria-hidden="true">C</span
+          ><span
+            ><span class="brand-name">CondoGestao</span
+            ><span class="brand-caption">Sistema de condominios</span></span
+          ></a
+        >
+        <p class="sidebar-section-label">Menu principal</p>
+        <nav class="main-nav" aria-label="Menu principal">
+          <a href="index.html">Dashboard</a
+          ><a href="moradores.html">Moradores</a
+          ><a href="unidades.html">Unidades</a
+          ><a href="ocorrencias.html" aria-current="page">Ocorrencias</a
+          ><a href="reservas.html">Reservas</a>
+        </nav>
+        <div class="sidebar-footer">Dados demonstrativos da V1</div>
+      </aside>
+      <div class="overlay" data-overlay></div>
+      <main class="main-content">
+        <header class="topbar">
+          <button
+            class="menu-toggle"
+            type="button"
+            data-menu-toggle
+            aria-controls="main-navigation"
+            aria-expanded="false"
+            aria-label="Abrir menu"
+          >
+            =</button
+          ><span class="topbar-context">Acompanhamento de chamados</span>
+          <div class="user-summary">
+            <span class="avatar" aria-hidden="true">AS</span>
+            <div>
+              <span class="user-name">Ana Souza</span
+              ><span class="user-role">Sindica</span>
+            </div>
+          </div>
+        </header>
+        <div class="page-container">
+          <header class="page-header">
+            <div>
+              <p class="breadcrumb">Inicio / Ocorrencias</p>
+              <h1>Ocorrencias</h1>
+              <p>
+                Registre e acompanhe situacoes que precisam de atencao no
+                condominio.
+              </p>
+            </div>
+            <div class="header-actions">
+              <button class="button button-primary" type="button">
+                Registrar ocorrencia
+              </button>
+            </div>
+          </header>
+          <section class="card">
+            <div class="filter-bar">
+              <div class="form-field">
+                <label for="occurrence-status">Status</label
+                ><select id="occurrence-status">
+                  <option>Todos os status</option>
+                  <option>Em analise</option>
+                  <option>Em andamento</option>
+                  <option>Concluida</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="occurrence-search">Buscar</label
+                ><input
+                  id="occurrence-search"
+                  type="search"
+                  placeholder="Titulo ou unidade"
+                />
+              </div>
+              <button class="button button-secondary" type="button">
+                Filtrar
+              </button>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Ocorrencia</th>
+                    <th>Local</th>
+                    <th>Data</th>
+                    <th>Responsavel</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="item-cell">
+                      <strong>Vazamento no banheiro</strong
+                      ><span>Registro #024</span>
+                    </td>
+                    <td>Bloco B, 204</td>
+                    <td>18/08/2026</td>
+                    <td>Administracao</td>
+                    <td>
+                      <span class="status status-warning">Em analise</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="item-cell">
+                      <strong>Lampada queimada</strong
+                      ><span>Registro #023</span>
+                    </td>
+                    <td>Garagem B</td>
+                    <td>17/08/2026</td>
+                    <td>Manutencao</td>
+                    <td>
+                      <span class="status status-success">Em andamento</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="item-cell">
+                      <strong>Portao com ruido</strong
+                      ><span>Registro #022</span>
+                    </td>
+                    <td>Entrada principal</td>
+                    <td>15/08/2026</td>
+                    <td>Manutencao</td>
+                    <td>
+                      <span class="status status-neutral">Concluida</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>

@@ -1,20 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reservas | CondoGestao</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/script.js" defer></script>
-</head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar" data-sidebar id="main-navigation"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">C</span><span><span class="brand-name">CondoGestao</span><span class="brand-caption">Sistema de condominios</span></span></a><p class="sidebar-section-label">Menu principal</p><nav class="main-nav" aria-label="Menu principal"><a href="index.html">Dashboard</a><a href="moradores.html">Moradores</a><a href="unidades.html">Unidades</a><a href="ocorrencias.html">Ocorrencias</a><a href="reservas.html" aria-current="page">Reservas</a></nav><div class="sidebar-footer">Dados demonstrativos da V1</div></aside>
-    <div class="overlay" data-overlay></div><main class="main-content"><header class="topbar"><button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false" aria-label="Abrir menu">=</button><span class="topbar-context">Agenda de areas comuns</span><div class="user-summary"><span class="avatar" aria-hidden="true">AS</span><div><span class="user-name">Ana Souza</span><span class="user-role">Sindica</span></div></div></header>
-      <div class="page-container"><header class="page-header"><div><p class="breadcrumb">Inicio / Reservas</p><h1>Reservas</h1><p>Veja a agenda das areas comuns e os proximos compromissos.</p></div><div class="header-actions"><button class="button button-primary" type="button">Nova reserva</button></div></header>
-        <section class="grid grid-3" aria-label="Resumo das reservas"><article class="card stat-card"><p class="stat-label">Reservas hoje</p><p class="stat-value">04</p><p class="stat-detail">3 areas em uso</p></article><article class="card stat-card"><p class="stat-label">Proximos 7 dias</p><p class="stat-value">12</p><p class="stat-detail">Agenda demonstrativa</p></article><article class="card stat-card"><p class="stat-label">Areas comuns</p><p class="stat-value">05</p><p class="stat-detail positive">Todas disponiveis</p></article></section>
-        <section class="card stack-top-20"><div class="filter-bar"><div class="form-field"><label for="reservation-area">Area comum</label><select id="reservation-area"><option>Todas as areas</option><option>Salao de festas</option><option>Churrasqueira</option><option>Quadra</option></select></div><div class="form-field"><label for="reservation-date">Data</label><input id="reservation-date" type="date" value="2026-08-18"></div><button class="button button-secondary" type="button">Filtrar</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Area</th><th>Solicitante</th><th>Data e horario</th><th>Finalidade</th><th>Status</th></tr></thead><tbody><tr><td class="item-cell"><strong>Salao de festas</strong><span>Capacidade: 50 pessoas</span></td><td>Marina Costa, 302</td><td>18/08/2026<br>18:00 - 23:00</td><td>Aniversario</td><td><span class="status status-success">Confirmada</span></td></tr><tr><td class="item-cell"><strong>Churrasqueira</strong><span>Capacidade: 20 pessoas</span></td><td>Rafael Almeida, 204</td><td>18/08/2026<br>12:00 - 16:00</td><td>Almoco em familia</td><td><span class="status status-success">Confirmada</span></td></tr><tr><td class="item-cell"><strong>Quadra</strong><span>Uso esportivo</span></td><td>Beatriz Martins, 101</td><td>19/08/2026<br>19:00 - 20:00</td><td>Volei</td><td><span class="status status-warning">Aguardando</span></td></tr></tbody></table></div></section>
-      </div></main>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservas | CondoGestao</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" data-sidebar id="main-navigation">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark" aria-hidden="true">C</span
+          ><span
+            ><span class="brand-name">CondoGestao</span
+            ><span class="brand-caption">Sistema de condominios</span></span
+          ></a
+        >
+        <p class="sidebar-section-label">Menu principal</p>
+        <nav class="main-nav" aria-label="Menu principal">
+          <a href="index.html">Dashboard</a
+          ><a href="moradores.html">Moradores</a
+          ><a href="unidades.html">Unidades</a
+          ><a href="ocorrencias.html">Ocorrencias</a
+          ><a href="reservas.html" aria-current="page">Reservas</a>
+        </nav>
+        <div class="sidebar-footer">Dados demonstrativos da V1</div>
+      </aside>
+      <div class="overlay" data-overlay></div>
+      <main class="main-content">
+        <header class="topbar">
+          <button
+            class="menu-toggle"
+            type="button"
+            data-menu-toggle
+            aria-controls="main-navigation"
+            aria-expanded="false"
+            aria-label="Abrir menu"
+          >
+            =</button
+          ><span class="topbar-context">Agenda de areas comuns</span>
+          <div class="user-summary">
+            <span class="avatar" aria-hidden="true">AS</span>
+            <div>
+              <span class="user-name">Ana Souza</span
+              ><span class="user-role">Sindica</span>
+            </div>
+          </div>
+        </header>
+        <div class="page-container">
+          <header class="page-header">
+            <div>
+              <p class="breadcrumb">Inicio / Reservas</p>
+              <h1>Reservas</h1>
+              <p>Veja a agenda das areas comuns e os proximos compromissos.</p>
+            </div>
+            <div class="header-actions">
+              <button class="button button-primary" type="button">
+                Nova reserva
+              </button>
+            </div>
+          </header>
+          <section class="grid grid-3" aria-label="Resumo das reservas">
+            <article class="card stat-card">
+              <p class="stat-label">Reservas hoje</p>
+              <p class="stat-value">04</p>
+              <p class="stat-detail">3 areas em uso</p>
+            </article>
+            <article class="card stat-card">
+              <p class="stat-label">Proximos 7 dias</p>
+              <p class="stat-value">12</p>
+              <p class="stat-detail">Agenda demonstrativa</p>
+            </article>
+            <article class="card stat-card">
+              <p class="stat-label">Areas comuns</p>
+              <p class="stat-value">05</p>
+              <p class="stat-detail positive">Todas disponiveis</p>
+            </article>
+          </section>
+          <section class="card stack-top-20">
+            <div class="filter-bar">
+              <div class="form-field">
+                <label for="reservation-area">Area comum</label
+                ><select id="reservation-area">
+                  <option>Todas as areas</option>
+                  <option>Salao de festas</option>
+                  <option>Churrasqueira</option>
+                  <option>Quadra</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="reservation-date">Data</label
+                ><input id="reservation-date" type="date" value="2026-08-18" />
+              </div>
+              <button class="button button-secondary" type="button">
+                Filtrar
+              </button>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Area</th>
+                    <th>Solicitante</th>
+                    <th>Data e horario</th>
+                    <th>Finalidade</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="item-cell">
+                      <strong>Salao de festas</strong
+                      ><span>Capacidade: 50 pessoas</span>
+                    </td>
+                    <td>Marina Costa, 302</td>
+                    <td>18/08/2026<br />18:00 - 23:00</td>
+                    <td>Aniversario</td>
+                    <td>
+                      <span class="status status-success">Confirmada</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="item-cell">
+                      <strong>Churrasqueira</strong
+                      ><span>Capacidade: 20 pessoas</span>
+                    </td>
+                    <td>Rafael Almeida, 204</td>
+                    <td>18/08/2026<br />12:00 - 16:00</td>
+                    <td>Almoco em familia</td>
+                    <td>
+                      <span class="status status-success">Confirmada</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="item-cell">
+                      <strong>Quadra</strong><span>Uso esportivo</span>
+                    </td>
+                    <td>Beatriz Martins, 101</td>
+                    <td>19/08/2026<br />19:00 - 20:00</td>
+                    <td>Volei</td>
+                    <td>
+                      <span class="status status-warning">Aguardando</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>

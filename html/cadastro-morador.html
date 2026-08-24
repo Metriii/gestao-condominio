@@ -1,20 +1,153 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Novo morador | CondoGestao</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/script.js" defer></script>
-</head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar" data-sidebar id="main-navigation"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">C</span><span><span class="brand-name">CondoGestao</span><span class="brand-caption">Sistema de condominios</span></span></a><p class="sidebar-section-label">Menu principal</p><nav class="main-nav" aria-label="Menu principal"><a href="index.html">Dashboard</a><a href="moradores.html" aria-current="page">Moradores</a><a href="unidades.html">Unidades</a><a href="ocorrencias.html">Ocorrencias</a><a href="reservas.html">Reservas</a></nav><div class="sidebar-footer">Dados demonstrativos da V1</div></aside>
-    <div class="overlay" data-overlay></div>
-    <main class="main-content"><header class="topbar"><button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false" aria-label="Abrir menu">=</button><span class="topbar-context">Cadastro e relacionamento</span><div class="user-summary"><span class="avatar" aria-hidden="true">AS</span><div><span class="user-name">Ana Souza</span><span class="user-role">Sindica</span></div></div></header>
-      <div class="page-container"><header class="page-header"><div><p class="breadcrumb">Inicio / Moradores / Novo cadastro</p><h1>Novo morador</h1><p>Preencha os dados abaixo para montar um cadastro demonstrativo.</p></div></header>
-        <section class="card"><div class="card-header"><div><h2>Dados do morador</h2><p>Os campos sao apresentados apenas para demonstracao.</p></div></div><div class="card-body"><form action="moradores.html" method="get"><div class="form-grid"><div class="form-field"><label for="full-name">Nome completo</label><input id="full-name" name="full-name" type="text" placeholder="Ex.: Marina Costa" required></div><div class="form-field"><label for="document">CPF</label><input id="document" name="document" type="text" placeholder="000.000.000-00"></div><div class="form-field"><label for="email">E-mail</label><input id="email" name="email" type="email" placeholder="morador@email.com" required></div><div class="form-field"><label for="phone">Telefone</label><input id="phone" name="phone" type="tel" placeholder="(00) 00000-0000"></div><div class="form-field"><label for="block">Bloco</label><select id="block" name="block"><option value="">Selecione</option><option>Bloco A</option><option>Bloco B</option></select></div><div class="form-field"><label for="unit">Unidade</label><select id="unit" name="unit"><option value="">Selecione</option><option>101</option><option>204</option><option>302</option><option>401</option></select></div><div class="form-field full-width"><label for="notes">Observacoes</label><textarea id="notes" name="notes" placeholder="Informacoes adicionais sobre o cadastro"></textarea><p class="field-help">Este campo ajuda a representar uma ficha mais completa.</p></div></div><div class="form-actions"><a class="button button-secondary" href="moradores.html">Cancelar</a><button class="button button-primary" type="submit">Salvar cadastro demonstrativo</button></div></form></div></section>
-      </div></main>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Novo morador | CondoGestao</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" data-sidebar id="main-navigation">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark" aria-hidden="true">C</span
+          ><span
+            ><span class="brand-name">CondoGestao</span
+            ><span class="brand-caption">Sistema de condominios</span></span
+          ></a
+        >
+        <p class="sidebar-section-label">Menu principal</p>
+        <nav class="main-nav" aria-label="Menu principal">
+          <a href="index.html">Dashboard</a
+          ><a href="moradores.html" aria-current="page">Moradores</a
+          ><a href="unidades.html">Unidades</a
+          ><a href="ocorrencias.html">Ocorrencias</a
+          ><a href="reservas.html">Reservas</a>
+        </nav>
+        <div class="sidebar-footer">Dados demonstrativos da V1</div>
+      </aside>
+      <div class="overlay" data-overlay></div>
+      <main class="main-content">
+        <header class="topbar">
+          <button
+            class="menu-toggle"
+            type="button"
+            data-menu-toggle
+            aria-controls="main-navigation"
+            aria-expanded="false"
+            aria-label="Abrir menu"
+          >
+            =</button
+          ><span class="topbar-context">Cadastro e relacionamento</span>
+          <div class="user-summary">
+            <span class="avatar" aria-hidden="true">AS</span>
+            <div>
+              <span class="user-name">Ana Souza</span
+              ><span class="user-role">Sindica</span>
+            </div>
+          </div>
+        </header>
+        <div class="page-container">
+          <header class="page-header">
+            <div>
+              <p class="breadcrumb">Inicio / Moradores / Novo cadastro</p>
+              <h1>Novo morador</h1>
+              <p>
+                Preencha os dados abaixo para montar um cadastro demonstrativo.
+              </p>
+            </div>
+          </header>
+          <section class="card">
+            <div class="card-header">
+              <div>
+                <h2>Dados do morador</h2>
+                <p>Os campos sao apresentados apenas para demonstracao.</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <form action="moradores.html" method="get">
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="full-name">Nome completo</label
+                    ><input
+                      id="full-name"
+                      name="full-name"
+                      type="text"
+                      placeholder="Ex.: Marina Costa"
+                      required
+                    />
+                  </div>
+                  <div class="form-field">
+                    <label for="document">CPF</label
+                    ><input
+                      id="document"
+                      name="document"
+                      type="text"
+                      placeholder="000.000.000-00"
+                    />
+                  </div>
+                  <div class="form-field">
+                    <label for="email">E-mail</label
+                    ><input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="morador@email.com"
+                      required
+                    />
+                  </div>
+                  <div class="form-field">
+                    <label for="phone">Telefone</label
+                    ><input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="(00) 00000-0000"
+                    />
+                  </div>
+                  <div class="form-field">
+                    <label for="block">Bloco</label
+                    ><select id="block" name="block">
+                      <option value="">Selecione</option>
+                      <option>Bloco A</option>
+                      <option>Bloco B</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label for="unit">Unidade</label
+                    ><select id="unit" name="unit">
+                      <option value="">Selecione</option>
+                      <option>101</option>
+                      <option>204</option>
+                      <option>302</option>
+                      <option>401</option>
+                    </select>
+                  </div>
+                  <div class="form-field full-width">
+                    <label for="notes">Observacoes</label
+                    ><textarea
+                      id="notes"
+                      name="notes"
+                      placeholder="Informacoes adicionais sobre o cadastro"
+                    ></textarea>
+                    <p class="field-help">
+                      Este campo ajuda a representar uma ficha mais completa.
+                    </p>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <a class="button button-secondary" href="moradores.html"
+                    >Cancelar</a
+                  ><button class="button button-primary" type="submit">
+                    Salvar cadastro demonstrativo
+                  </button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>
