@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Novo morador | CondoGestao</title>
+    <title>Nova reserva | CondoGestao</title>
     <link rel="stylesheet" href="../css/style.css" />
     <script src="../js/dados.js"></script>
     <script src="../js/script.js" defer></script>
@@ -21,10 +21,10 @@
         <p class="sidebar-section-label">Menu principal</p>
         <nav class="main-nav" aria-label="Menu principal">
           <a href="index.html">Dashboard</a
-          ><a href="moradores.html" aria-current="page">Moradores</a
+          ><a href="moradores.html">Moradores</a
           ><a href="unidades.html">Unidades</a
           ><a href="ocorrencias.html">Ocorrencias</a
-          ><a href="reservas.html">Reservas</a>
+          ><a href="reservas.html" aria-current="page">Reservas</a>
         </nav>
         <div class="sidebar-footer">Dados demonstrativos da V1</div>
       </aside>
@@ -40,7 +40,7 @@
             aria-label="Abrir menu"
           >
             =</button
-          ><span class="topbar-context">Cadastro e relacionamento</span>
+          ><span class="topbar-context">Nova reserva de area comum</span>
           <div class="user-summary" data-user-menu>
             <span class="avatar" aria-hidden="true">AS</span>
             <div>
@@ -56,90 +56,93 @@
         <div class="page-container">
           <header class="page-header">
             <div>
-              <p class="breadcrumb">Inicio / Moradores / Novo cadastro</p>
-              <h1>Novo morador</h1>
+              <p class="breadcrumb">Inicio / Reservas / Nova reserva</p>
+              <h1>Nova reserva</h1>
               <p>
-                Preencha os dados abaixo para montar um cadastro demonstrativo.
+                Preencha os dados abaixo para reservar uma area comum.
               </p>
             </div>
           </header>
           <section class="card">
             <div class="card-header">
               <div>
-                <h2>Dados do morador</h2>
+                <h2>Dados da reserva</h2>
                 <p>Os campos sao apresentados apenas para demonstracao.</p>
               </div>
             </div>
             <div class="card-body">
-              <form action="moradores.html" method="get">
+              <form action="reservas.html" method="get">
                 <div class="form-grid">
                   <div class="form-field">
-                    <label for="full-name">Nome completo</label
+                    <label for="area">Area comum</label
+                    ><select id="area" name="area" required>
+                      <option value="">Selecione</option>
+                    </select>
+                  </div>
+                  <div class="form-field" id="campo-outros-area" style="display:none">
+                    <label for="outra-area-nome">Nome da area</label
                     ><input
-                      id="full-name"
-                      name="full-name"
+                      id="outra-area-nome"
+                      name="outra-area-nome"
                       type="text"
-                      placeholder="Ex.: Marina Costa"
+                      placeholder="Ex.: Quadra de tenis"
+                    />
+                  </div>
+                  <div class="form-field" id="campo-outros-capacidade" style="display:none">
+                    <label for="outra-area-capacidade">Capacidade</label
+                    ><input
+                      id="outra-area-capacidade"
+                      name="outra-area-capacidade"
+                      type="text"
+                      placeholder="Ex.: 10 pessoas"
+                    />
+                  </div>
+                  <div class="form-field">
+                    <label for="solicitante">Solicitante</label
+                    ><input
+                      id="solicitante"
+                      name="solicitante"
+                      type="text"
+                      placeholder="Ex.: Marina Costa, 302, Bloco A"
                       required
                     />
                   </div>
                   <div class="form-field">
-                    <label for="document">CPF</label
+                    <label for="data">Data</label
                     ><input
-                      id="document"
-                      name="document"
-                      type="text"
-                      placeholder="000.000.000-00"
-                    />
-                  </div>
-                  <div class="form-field">
-                    <label for="email">E-mail</label
-                    ><input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="morador@email.com"
+                      id="data"
+                      name="data"
+                      type="date"
                       required
                     />
                   </div>
                   <div class="form-field">
-                    <label for="phone">Telefone</label
+                    <label for="horario">Horario</label
                     ><input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      placeholder="(00) 00000-0000"
+                      id="horario"
+                      name="horario"
+                      type="text"
+                      placeholder="Ex.: 18:00 - 23:00"
+                      required
                     />
                   </div>
                   <div class="form-field">
-                    <label for="block">Bloco</label
-                    ><select id="block" name="block">
-                      <option value="">Selecione</option>
-                    </select>
+                    <label for="finalidade">Finalidade</label
+                    ><input
+                      id="finalidade"
+                      name="finalidade"
+                      type="text"
+                      placeholder="Ex.: Aniversario"
+                      required
+                    />
                   </div>
-                  <div class="form-field">
-                    <label for="unit">Unidade</label
-                    ><select id="unit" name="unit">
-                      <option value="">Selecione</option>
-                    </select>
-                  </div>
-                  <div class="form-field full-width">
-                    <label for="notes">Observacoes</label
-                    ><textarea
-                      id="notes"
-                      name="notes"
-                      placeholder="Informacoes adicionais sobre o cadastro"
-                    ></textarea>
-                    <p class="field-help">
-                      Este campo ajuda a representar uma ficha mais completa.
-                    </p>
-                  </div>
+
                 </div>
                 <div class="form-actions">
-                  <a class="button button-secondary" href="moradores.html"
+                  <a class="button button-secondary" href="reservas.html"
                     >Cancelar</a
                   ><button class="button button-primary" type="submit">
-                    Salvar cadastro demonstrativo
+                    Solicitar reserva
                   </button>
                 </div>
               </form>

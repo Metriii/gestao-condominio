@@ -234,6 +234,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 
 .avatar {
@@ -1006,4 +1007,18 @@ html.dark {
 html.dark body {
   background: var(--color-background);
   color: var(--color-text);
+}
+
+.status-select {
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-background);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.grid-3 + .card {
+  margin-top: 1.5rem;
 }

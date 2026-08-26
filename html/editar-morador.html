@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Novo morador | CondoGestao</title>
+    <title>Editar morador | CondoGestao</title>
     <link rel="stylesheet" href="../css/style.css" />
     <script src="../js/dados.js"></script>
     <script src="../js/script.js" defer></script>
@@ -56,22 +56,20 @@
         <div class="page-container">
           <header class="page-header">
             <div>
-              <p class="breadcrumb">Inicio / Moradores / Novo cadastro</p>
-              <h1>Novo morador</h1>
-              <p>
-                Preencha os dados abaixo para montar um cadastro demonstrativo.
-              </p>
+              <p class="breadcrumb">Inicio / Moradores / Editar</p>
+              <h1>Editar morador</h1>
+              <p>Altere os dados do morador abaixo.</p>
             </div>
           </header>
           <section class="card">
             <div class="card-header">
               <div>
                 <h2>Dados do morador</h2>
-                <p>Os campos sao apresentados apenas para demonstracao.</p>
+                <p>Atualize as informacoes necessarias.</p>
               </div>
             </div>
             <div class="card-body">
-              <form action="moradores.html" method="get">
+              <form>
                 <div class="form-grid">
                   <div class="form-field">
                     <label for="full-name">Nome completo</label
@@ -123,23 +121,12 @@
                       <option value="">Selecione</option>
                     </select>
                   </div>
-                  <div class="form-field full-width">
-                    <label for="notes">Observacoes</label
-                    ><textarea
-                      id="notes"
-                      name="notes"
-                      placeholder="Informacoes adicionais sobre o cadastro"
-                    ></textarea>
-                    <p class="field-help">
-                      Este campo ajuda a representar uma ficha mais completa.
-                    </p>
-                  </div>
                 </div>
                 <div class="form-actions">
                   <a class="button button-secondary" href="moradores.html"
                     >Cancelar</a
                   ><button class="button button-primary" type="submit">
-                    Salvar cadastro demonstrativo
+                    Salvar alteracoes
                   </button>
                 </div>
               </form>

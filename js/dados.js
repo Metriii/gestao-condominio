@@ -39,9 +39,9 @@ var CONDOMINIOS = {
         cpf: "***.***.***-78",
         telefone: "(11) 97777-4567",
         tipo: "Proprietario",
-        unidade: "Bloco B, 204",
+        unidade: "Bloco B, 202",
         bloco: "B",
-        numero: "204",
+        numero: "202",
         situacao: "Ativo",
         dataCadastro: "05 de julho de 2026",
         vagasGaragem: "01",
@@ -80,14 +80,26 @@ var CONDOMINIOS = {
     ],
     unidades: [
       { bloco: "A", numero: "101", andar: "Primeiro andar", responsavel: "Beatriz Martins", moradores: 2, situacao: "Ocupada", garagem: "01 vaga" },
+      { bloco: "A", numero: "102", andar: "Primeiro andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "A", numero: "201", andar: "Segundo andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "A", numero: "202", andar: "Segundo andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "A", numero: "301", andar: "Terceiro andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
       { bloco: "A", numero: "302", andar: "Terceiro andar", responsavel: "Marina Costa", moradores: 3, situacao: "Ocupada", garagem: "02 vagas" },
-      { bloco: "B", numero: "204", andar: "Segundo andar", responsavel: "Rafael Almeida", moradores: 2, situacao: "Ocupada", garagem: "01 vaga" },
-      { bloco: "B", numero: "401", andar: "Quarto andar", responsavel: "Joao Ribeiro", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" }
+      { bloco: "A", numero: "401", andar: "Quarto andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "A", numero: "402", andar: "Quarto andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "B", numero: "101", andar: "Primeiro andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "B", numero: "102", andar: "Primeiro andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "B", numero: "201", andar: "Segundo andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "B", numero: "202", andar: "Segundo andar", responsavel: "Rafael Almeida", moradores: 2, situacao: "Ocupada", garagem: "01 vaga" },
+      { bloco: "B", numero: "301", andar: "Terceiro andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "B", numero: "302", andar: "Terceiro andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "B", numero: "401", andar: "Quarto andar", responsavel: "Joao Ribeiro", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" },
+      { bloco: "B", numero: "402", andar: "Quarto andar", responsavel: "", moradores: 0, situacao: "Disponivel", garagem: "01 vaga" }
     ],
-    totalUnidades: 48,
+    totalUnidades: 16,
     blocos: ["A", "B"],
     ocorrencias: [
-      { id: 24, titulo: "Vazamento no banheiro", local: "Bloco B, 204", data: "18/08/2026", responsavel: "Administracao", status: "Em analise" },
+      { id: 24, titulo: "Vazamento no banheiro", local: "Bloco B, 202", data: "18/08/2026", responsavel: "Administracao", status: "Em analise" },
       { id: 23, titulo: "Lampada queimada", local: "Garagem B", data: "17/08/2026", responsavel: "Manutencao", status: "Em andamento" },
       { id: 22, titulo: "Portao com ruido", local: "Entrada principal", data: "15/08/2026", responsavel: "Manutencao", status: "Concluida" }
     ],
@@ -98,13 +110,13 @@ var CONDOMINIOS = {
     ],
     reservas: [
       { area: "Salao de festas", areaInfo: "Capacidade: 50 pessoas", solicitante: "Marina Costa, 302", data: "18/08/2026", horario: "18:00 - 23:00", finalidade: "Aniversario", status: "Confirmada" },
-      { area: "Churrasqueira", areaInfo: "Capacidade: 20 pessoas", solicitante: "Rafael Almeida, 204", data: "18/08/2026", horario: "12:00 - 16:00", finalidade: "Almoco em familia", status: "Confirmada" },
+      { area: "Churrasqueira", areaInfo: "Capacidade: 20 pessoas", solicitante: "Rafael Almeida, 202", data: "18/08/2026", horario: "12:00 - 16:00", finalidade: "Almoco em familia", status: "Confirmada" },
       { area: "Quadra", areaInfo: "Uso esportivo", solicitante: "Beatriz Martins, 101", data: "19/08/2026", horario: "19:00 - 20:00", finalidade: "Volei", status: "Aguardando" }
     ],
     atividadeRecente: [
-      { tipo: "Ocorrencia atualizada", descricao: "Vazamento no bloco B, unidade 204", status: "Em analise", statusClasse: "warning" },
+      { tipo: "Ocorrencia atualizada", descricao: "Vazamento no bloco B, unidade 202", status: "Em analise", statusClasse: "warning" },
       { tipo: "Reserva confirmada", descricao: "Salao de festas para 18/08", status: "Confirmada", statusClasse: "success" },
-      { tipo: "Novo morador cadastrado", descricao: "Marina Costa, unidade 302", status: "Hoje", statusClasse: "neutral" }
+      { tipo: "Novo morador cadastrado", descricao: "Rafael Almeida, unidade 202", status: "Hoje", statusClasse: "neutral" }
     ]
   },
 
