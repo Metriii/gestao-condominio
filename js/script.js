@@ -518,33 +518,17 @@ document.addEventListener("DOMContentLoaded", function () {
         if (stats[2]) stats[2].querySelector(".stat-value").textContent = String(concluidas).padStart(2, "0");
 
         var spansStatus = ocorrenciasTbody.querySelectorAll(".status-cell .status");
+        var cicloStatus = ["Em analise", "Em andamento", "Concluida"];
         spansStatus.forEach(function (span) {
           span.addEventListener("click", function () {
             var ocId = parseInt(span.getAttribute("data-ocorrencia-id"));
             var oc = lista.find(function (o) { return o.id === ocId; });
             if (!oc) return;
 
-            var select = document.createElement("select");
-            select.className = "status-select";
-            ["Em analise", "Em andamento", "Concluida"].forEach(function (opt) {
-              var option = document.createElement("option");
-              option.value = opt;
-              option.textContent = opt;
-              if (opt === oc.status) option.selected = true;
-              select.appendChild(option);
-            });
-
-            span.replaceWith(select);
-            select.focus();
-
-            function salvar() {
-              var novoStatus = select.value;
-              salvarOverride(ocId, novoStatus);
-              renderizarOcorrencias();
-            }
-
-            select.addEventListener("change", salvar);
-            select.addEventListener("blur", salvar);
+            var idxAtual = cicloStatus.indexOf(oc.status);
+            var novoStatus = cicloStatus[(idxAtual + 1) % cicloStatus.length];
+            salvarOverride(ocId, novoStatus);
+            renderizarOcorrencias();
           });
         });
       }
