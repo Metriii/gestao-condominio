@@ -518,17 +518,40 @@ document.addEventListener("DOMContentLoaded", function () {
         if (stats[2]) stats[2].querySelector(".stat-value").textContent = String(concluidas).padStart(2, "0");
 
         var spansStatus = ocorrenciasTbody.querySelectorAll(".status-cell .status");
-        var cicloStatus = ["Em analise", "Em andamento", "Concluida"];
+        var opcoesStatus = ["Em analise", "Em andamento", "Concluida"];
         spansStatus.forEach(function (span) {
-          span.addEventListener("click", function () {
+          span.addEventListener("click", function (e) {
+            e.stopPropagation();
             var ocId = parseInt(span.getAttribute("data-ocorrencia-id"));
             var oc = lista.find(function (o) { return o.id === ocId; });
             if (!oc) return;
 
-            var idxAtual = cicloStatus.indexOf(oc.status);
-            var novoStatus = cicloStatus[(idxAtual + 1) % cicloStatus.length];
-            salvarOverride(ocId, novoStatus);
-            renderizarOcorrencias();
+            var dropdown = document.createElement("div");
+            dropdown.className = "status-dropdown";
+            opcoesStatus.forEach(function (opt) {
+              var btn = document.createElement("button");
+              btn.type = "button";
+              btn.textContent = opt;
+              if (opt === oc.status) btn.classList.add("active");
+              btn.addEventListener("click", function (ev) {
+                ev.stopPropagation();
+                salvarOverride(ocId, opt);
+                dropdown.remove();
+                renderizarOcorrencias();
+              });
+              dropdown.appendChild(btn);
+            });
+
+            span.parentElement.style.position = "relative";
+            span.parentElement.appendChild(dropdown);
+
+            function fechar() {
+              dropdown.remove();
+              document.removeEventListener("click", fechar);
+            }
+            setTimeout(function () {
+              document.addEventListener("click", fechar);
+            }, 0);
           });
         });
       }

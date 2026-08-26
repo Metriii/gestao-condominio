@@ -1019,6 +1019,39 @@ html.dark body {
   cursor: pointer;
 }
 
+.status-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  min-width: 140px;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.status-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.status-dropdown button:hover {
+  background: var(--color-muted);
+}
+
+.status-dropdown button.active {
+  font-weight: 600;
+  background: var(--color-muted);
+}
+
 .grid-3 + .card {
   margin-top: 1.5rem;
 }
