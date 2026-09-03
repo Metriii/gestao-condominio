@@ -287,8 +287,7 @@ h3 {
   font-size: 12px;
 }
 
-.header-actions,
-.button-group {
+.header-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -346,10 +345,6 @@ h3 {
   margin-top: 20px;
 }
 
-.stack-top-30 {
-  margin-top: 30px;
-}
-
 .progress-summary {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -374,10 +369,6 @@ h3 {
   border-radius: var(--radius-md);
   background: var(--color-surface);
   box-shadow: var(--shadow-sm);
-}
-
-.card-padding {
-  padding: 22px;
 }
 
 .card-header {
@@ -426,14 +417,6 @@ h3 {
   margin: 0;
   color: var(--color-muted);
   font-size: 12px;
-}
-
-.stat-detail.positive {
-  color: var(--color-success);
-}
-
-.stat-detail.attention {
-  color: var(--color-warning);
 }
 
 .table-wrapper {
@@ -506,11 +489,6 @@ h3 {
 .status-warning {
   background: var(--color-warning-soft);
   color: var(--color-warning);
-}
-
-.status-danger {
-  background: var(--color-danger-soft);
-  color: var(--color-danger);
 }
 
 .status-neutral {
@@ -663,12 +641,6 @@ h3 {
   font-size: 14px;
 }
 
-.empty-state {
-  padding: 42px 22px;
-  color: var(--color-muted);
-  text-align: center;
-}
-
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -687,18 +659,6 @@ h3 {
   min-height: 38px;
 }
 
-.notice {
-  padding: 13px 15px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-}
-
-.notice-info {
-  border-color: var(--color-border);
-  background: var(--color-primary-soft);
-  color: var(--color-primary-dark);
-}
 
 .login-page {
   display: grid;
@@ -865,8 +825,7 @@ h3 {
   }
 
   .card-header,
-  .card-body,
-  .card-padding {
+  .card-body {
     padding-right: 18px;
     padding-left: 18px;
   }
@@ -922,14 +881,12 @@ h3 {
   }
 
   .header-actions,
-  .button-group,
   .form-actions {
     align-items: stretch;
     flex-direction: column;
   }
 
   .header-actions .button,
-  .button-group .button,
   .form-actions .button {
     width: 100%;
   }
@@ -1007,16 +964,6 @@ html.dark {
 html.dark body {
   background: var(--color-background);
   color: var(--color-text);
-}
-
-.status-select {
-  padding: 4px 8px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-background);
-  color: var(--color-text);
-  font-size: 0.85rem;
-  cursor: pointer;
 }
 
 .status-dropdown {

@@ -42,10 +42,10 @@
             =</button
           ><span class="topbar-context">Cadastro e relacionamento</span>
           <div class="user-summary" data-user-menu>
-            <span class="avatar" aria-hidden="true">AS</span>
+            <span class="avatar" aria-hidden="true" data-template="sessao.iniciais"></span>
             <div>
-              <span class="user-name">Vinicius</span
-              ><span class="user-role">Sindico</span>
+              <span class="user-name" data-template="sessao.nome"></span
+              ><span class="user-role" data-template="sessao.cargo"></span>
             </div>
             <nav class="user-dropdown" aria-label="Menu do usuario">
               <button type="button" data-action="theme">Mudar tema</button>
@@ -122,17 +122,6 @@
                     ><select id="unit" name="unit">
                       <option value="">Selecione</option>
                     </select>
-                  </div>
-                  <div class="form-field full-width">
-                    <label for="notes">Observacoes</label
-                    ><textarea
-                      id="notes"
-                      name="notes"
-                      placeholder="Informacoes adicionais sobre o cadastro"
-                    ></textarea>
-                    <p class="field-help">
-                      Este campo ajuda a representar uma ficha mais completa.
-                    </p>
                   </div>
                 </div>
                 <div class="form-actions">

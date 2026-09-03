@@ -42,10 +42,10 @@
             =</button
           ><span class="topbar-context">Cadastro e relacionamento</span>
           <div class="user-summary" data-user-menu>
-            <span class="avatar" aria-hidden="true">AS</span>
+            <span class="avatar" aria-hidden="true" data-template="sessao.iniciais"></span>
             <div>
-              <span class="user-name">Vinicius</span
-              ><span class="user-role">Sindico</span>
+              <span class="user-name" data-template="sessao.nome"></span
+              ><span class="user-role" data-template="sessao.cargo"></span>
             </div>
             <nav class="user-dropdown" aria-label="Menu do usuario">
               <button type="button" data-action="theme">Mudar tema</button>
@@ -99,72 +99,7 @@
                     <th>Acoes</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td class="person-cell">
-                      <strong>Marina Costa</strong
-                      ><span>marina.costa@email.com</span>
-                    </td>
-                    <td>Bloco A, 302</td>
-                    <td>(11) 98888-1234</td>
-                    <td><span class="status status-success">Ativo</span></td>
-                    <td>
-                      <a
-                        class="button button-secondary button-small"
-                        href="morador.html"
-                        >Ver detalhes</a
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="person-cell">
-                      <strong>Rafael Almeida</strong
-                      ><span>rafael.almeida@email.com</span>
-                    </td>
-                    <td>Bloco B, 204</td>
-                    <td>(11) 97777-4567</td>
-                    <td><span class="status status-success">Ativo</span></td>
-                    <td>
-                      <a
-                        class="button button-secondary button-small"
-                        href="morador.html"
-                        >Ver detalhes</a
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="person-cell">
-                      <strong>Beatriz Martins</strong
-                      ><span>beatriz.martins@email.com</span>
-                    </td>
-                    <td>Bloco A, 101</td>
-                    <td>(11) 96666-7890</td>
-                    <td><span class="status status-success">Ativo</span></td>
-                    <td>
-                      <a
-                        class="button button-secondary button-small"
-                        href="morador.html"
-                        >Ver detalhes</a
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="person-cell">
-                      <strong>Joao Ribeiro</strong
-                      ><span>joao.ribeiro@email.com</span>
-                    </td>
-                    <td>Bloco B, 401</td>
-                    <td>(11) 95555-0123</td>
-                    <td><span class="status status-neutral">Inativo</span></td>
-                    <td>
-                      <a
-                        class="button button-secondary button-small"
-                        href="morador.html"
-                        >Ver detalhes</a
-                      >
-                    </td>
-                  </tr>
-                </tbody>
+                <tbody data-dynamic="moradores"></tbody>
               </table>
             </div>
           </section>

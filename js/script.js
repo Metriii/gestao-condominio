@@ -27,6 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
     return CONDOMINIOS[sessao.condominio] || null;
   }
 
+  /* Formatar nome do bloco: se ja comeca com "Torre" ou "Bloco", usa direto.
+     Caso contrario (ex: "A", "B"), acrescenta "Bloco " na frente. */
+  function formatarBloco(bloco) {
+    if (bloco.indexOf("Torre") === 0 || bloco.indexOf("Bloco") === 0) return bloco;
+    return "Bloco " + bloco;
+  }
+
   /* ---- Login ---- */
   var loginForm = document.querySelector(".login-form-content form");
   if (loginForm) {
@@ -39,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       var email = document.getElementById("email").value.trim();
       var senha = document.getElementById("password").value;
-      var erro  = document.getElementById("login-erro");
+      var erro = document.getElementById("login-erro");
 
       var usuario = USUARIOS.find(function (u) {
         return u.email === email && u.senha === senha;
@@ -69,36 +76,48 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  /* ============================================================
-     BARRA DE USUARIO (topbar)
-     ============================================================ */
+  /* =============================
+     {{chave}} para valores dinamicos
+     ============================= */
 
-  var iniciais = sessao.nome.split(" ").map(function (p) { return p[0]; }).join("").toUpperCase().substring(0, 2);
-  var userSummaryEls = document.querySelectorAll(".user-summary");
-  userSummaryEls.forEach(function (el) {
-    var avatar = el.querySelector(".avatar");
-    var name   = el.querySelector(".user-name");
-    var role   = el.querySelector(".user-role");
-    if (avatar) avatar.textContent = iniciais;
-    if (name)   name.textContent   = sessao.nome;
-    if (role)   role.textContent   = "Sindico";
-  });
-
-  var saudacaoEl = document.querySelector("h1");
-  if (saudacaoEl && saudacaoEl.textContent.indexOf("Bom") === 0) {
+  function aplicarTemplates() {
+    var iniciais = sessao.nome.split(" ").map(function (p) { return p[0]; }).join("").toUpperCase().substring(0, 2);
     var primeiroNome = sessao.nome.split(" ")[0];
     var hora = new Date().getHours();
     var cumprimento = hora < 12 ? "Bom dia" : hora < 18 ? "Boa tarde" : "Boa noite";
-    saudacaoEl.textContent = cumprimento + ", " + primeiroNome + ".";
+
+    var mapa = {
+      "sessao.nome": sessao.nome,
+      "sessao.iniciais": iniciais,
+      "sessao.cargo": "Sindico",
+      "saudacao": cumprimento + ", " + primeiroNome + "."
+    };
+
+    document.querySelectorAll("*").forEach(function (el) {
+      var template = el.getAttribute("data-template");
+      if (template && mapa[template]) {
+        el.textContent = mapa[template];
+        return;
+      }
+      var texto = el.textContent;
+      if (texto.indexOf("{{") !== -1) {
+        var novoTexto = texto.replace(/\{\{(.+?)\}\}/g, function (match, chave) {
+          return mapa[chave] !== undefined ? mapa[chave] : match;
+        });
+        if (novoTexto !== texto) el.textContent = novoTexto;
+      }
+    });
   }
+
+  aplicarTemplates();
 
   /* ============================================================
      MENU MOBILE
      ============================================================ */
 
   var menuToggle = document.querySelector("[data-menu-toggle]");
-  var sidebar    = document.querySelector("[data-sidebar]");
-  var overlay    = document.querySelector("[data-overlay]");
+  var sidebar = document.querySelector("[data-sidebar]");
+  var overlay = document.querySelector("[data-overlay]");
 
   if (menuToggle && sidebar && overlay) {
     function closeMenu() {
@@ -180,15 +199,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var path = window.location.pathname;
   var pagina = "";
-  if (path.indexOf("moradores.html") !== -1)     pagina = "moradores";
-  else if (path.indexOf("unidades.html") !== -1)  pagina = "unidades";
+  if (path.indexOf("moradores.html") !== -1) pagina = "moradores";
+  else if (path.indexOf("unidades.html") !== -1) pagina = "unidades";
   else if (path.indexOf("registrar-ocorrencia.html") !== -1) pagina = "registrar-ocorrencia";
   else if (path.indexOf("ocorrencias.html") !== -1) pagina = "ocorrencias";
   else if (path.indexOf("nova-reserva.html") !== -1) pagina = "nova-reserva";
-  else if (path.indexOf("reservas.html") !== -1)  pagina = "reservas";
+  else if (path.indexOf("reservas.html") !== -1) pagina = "reservas";
   else if (path.indexOf("cadastro-morador.html") !== -1) pagina = "cadastro-morador";
   else if (path.indexOf("editar-morador.html") !== -1) pagina = "editar-morador";
-  else if (path.indexOf("morador.html") !== -1)   pagina = "morador";
+  else if (path.indexOf("morador.html") !== -1) pagina = "morador";
   else if (path.indexOf("index.html") !== -1 || path.endsWith("/") || path.endsWith("\\") || path.indexOf("index") === -1 && pagina === "") {
     pagina = "dashboard";
   }
@@ -261,43 +280,60 @@ document.addEventListener("DOMContentLoaded", function () {
   if (pagina === "dashboard") {
     var dashboardGrid = document.querySelector(".grid-4");
     if (dashboardGrid) {
+      /* obterTodosMoradores() retorna todos os moradores do condominio logado */
       var todosMoradores = obterTodosMoradores();
-      var unidades      = condominio.unidades;
-      var totalU        = unidades.length;
 
-      /* Contar ocupadas: demo + moradores cadastrados/edicados */
-      var ocupadasDemo = unidades.filter(function (u) { return u.situacao === "Ocupada"; }).length;
+      /* unidades = lista de unidades do condominio (ex: 16 unidades) */
+      var unidades = condominio.unidades;
+
+      /* totalU = quantidade total de unidades */
+      var totalU = unidades.length;
+
+      /* ---- OCUPACAO ---- */
+      /* Contar unidades ocupadas apenas por moradores ATIVOS com unidade atribuida.
+         Cada chave "bloco_numero" registra uma unidade ocupada. */
       var chavesOcupadas = {};
-      unidades.forEach(function (u) {
-        if (u.situacao === "Ocupada") chavesOcupadas[u.bloco + "_" + u.numero] = true;
+      todosMoradores.filter(function (m) { return m.situacao === "Ativo"; }).forEach(function (m) {
+        chavesOcupadas[m.bloco + "_" + m.numero] = true;
       });
-      var extras = 0;
-      todosMoradores.forEach(function (m) {
-        var chave = m.bloco + "_" + m.numero;
-        if (!chavesOcupadas[chave]) {
-          chavesOcupadas[chave] = true;
-          extras++;
-        }
-      });
-      var ocupadas = ocupadasDemo + extras;
-      var pct      = Math.round((ocupadas / totalU) * 1000) / 10;
-      var abertas  = condominio.ocorrencias.filter(function (o) { return o.status !== "Concluida"; }).length;
+      var ocupadas = Object.keys(chavesOcupadas).length;
 
+      /* pct = porcentagem de ocupacao (arredondado 1 casa decimal) */
+      var pct = Math.round((ocupadas / totalU) * 1000) / 10;
+
+      /* ---- OCORRENCIAS ABERTAS ---- */
+      /* Contar ocorrencias com status diferente de "Concluida" */
+      var abertas = condominio.ocorrencias.filter(function (o) { return o.status !== "Concluida"; }).length;
+
+      /* Somar ocorrencias novas cadastradas na sessao (sessionStorage) */
       var chaveNovasOc = "novasOcorrencias_" + sessao.condominio;
       var novasOcorrencias = [];
       try { novasOcorrencias = JSON.parse(sessionStorage.getItem(chaveNovasOc)) || []; } catch (e) { novasOcorrencias = []; }
       abertas += novasOcorrencias.filter(function (o) { return o.status !== "Concluida"; }).length;
+
+      /* reservasHoje = total de reservas do condominio */
       var reservasHoje = condominio.reservas.length;
 
+      /* ---- STATS - Preencher os 4 cards de resumo ---- */
       var stats = dashboardGrid.querySelectorAll(".stat-card");
-      if (stats[0]) { stats[0].querySelector(".stat-value").textContent = todosMoradores.length; }
+
+      /* Card 1: Moradores ativos */
+      var moradoresAtivos = todosMoradores.filter(function (m) { return m.situacao === "Ativo"; });
+      if (stats[0]) { stats[0].querySelector(".stat-value").textContent = moradoresAtivos.length; }
+
+      /* Card 2: Unidades ocupadas (ex: 3/16) */
       if (stats[1]) { stats[1].querySelector(".stat-value").textContent = ocupadas + "/" + totalU; stats[1].querySelector(".stat-detail").textContent = pct + "% de ocupacao"; }
+
+      /* Card 3: Ocorrencias abertas */
       if (stats[2]) { stats[2].querySelector(".stat-value").textContent = String(abertas).padStart(2, "0"); }
+
+      /* Card 4: Reservas hoje */
       if (stats[3]) { stats[3].querySelector(".stat-value").textContent = String(reservasHoje).padStart(2, "0"); }
     }
 
-    /* Atividade recente */
-    var listaAtividade = document.querySelector(".grid-2 .list");
+    /* ---- ATIVIDADE RECENTE ---- */
+    /* Preencher a lista de atividade recente do condominio */
+    var listaAtividade = document.querySelector("[data-dynamic='atividade-recente']");
     if (listaAtividade) {
       listaAtividade.innerHTML = "";
       condominio.atividadeRecente.forEach(function (item) {
@@ -310,13 +346,34 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    /* Ocupacao - barra de progresso */
+    /* ---- TABELA DE MORADORES (apenas ativos) ---- */
+    /* Listar moradores ativos na tabela do dashboard */
+    var moradoresDashboard = document.querySelector("[data-dynamic='moradores-dashboard']");
+    if (moradoresDashboard) {
+      var ativos = todosMoradores.filter(function (m) { return m.situacao === "Ativo"; });
+      moradoresDashboard.innerHTML = "";
+      ativos.forEach(function (m) {
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          '<td class="person-cell"><strong>' + m.nome + '</strong><span>' + m.email + '</span></td>' +
+          '<td>' + m.unidade + '</td>' +
+          '<td>' + m.telefone + '</td>' +
+          '<td><span class="status status-success">Ativo</span></td>' +
+          '<td><a class="button button-secondary button-small" href="morador.html?id=' + m.id + '">Ver detalhes</a></td>';
+        moradoresDashboard.appendChild(tr);
+      });
+    }
+
+    /* ---- BARRA DE PROGRESSO ---- */
+    /* Atualizar largura da barra e texto (ex: 3/16) */
     var progressValue = document.querySelector(".progress-value");
     var progressCaption = document.querySelector(".progress-caption strong");
     if (progressValue) progressValue.style.width = pct + "%";
-    if (progressCaption) progressCaption.textContent = ocupadas + " de " + totalU;
+    if (progressCaption) progressCaption.textContent = ocupadas + "/" + totalU;
 
-    /* Ocupacao - por bloco */
+    /* ---- OCUPACAO POR BLOCO ---- */
+    /* Para cada bloco/torre, contar quantas unidades estao ocupadas.
+       Usa chavesOcupadas (preenchido acima com moradores ativos) */
     var progressSummary = document.querySelector(".progress-summary");
     if (progressSummary && condominio.blocos) {
       progressSummary.innerHTML = "";
@@ -327,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (chavesOcupadas[u.bloco + "_" + u.numero]) ocuBloco++;
         });
         var div = document.createElement("div");
-        div.innerHTML = '<p class="stat-label">Bloco ' + bloco + '</p><strong>' + ocuBloco + ' de ' + unidadesBloco.length + '</strong>';
+        div.innerHTML = '<p class="stat-label">' + formatarBloco(bloco) + '</p><strong>' + ocuBloco + '/' + unidadesBloco.length + '</strong>';
         progressSummary.appendChild(div);
       });
     }
@@ -340,44 +397,102 @@ document.addEventListener("DOMContentLoaded", function () {
   if (pagina === "moradores") {
     var moradoresTbody = document.querySelector(".data-table tbody");
     if (moradoresTbody) {
-      var todosMoradores = obterTodosMoradores();
 
-      moradoresTbody.innerHTML = "";
-      todosMoradores.forEach(function (m) {
-        var statusClasse = m.situacao === "Ativo" ? "success" : "neutral";
-        var tr = document.createElement("tr");
-        tr.innerHTML =
-          '<td class="person-cell"><strong>' + m.nome + '</strong><span>' + m.email + '</span></td>' +
-          '<td>' + m.unidade + '</td>' +
-          '<td>' + m.telefone + '</td>' +
-          '<td><span class="status status-' + statusClasse + '">' + m.situacao + '</span></td>' +
-          '<td><a class="button button-secondary button-small" href="morador.html?id=' + m.id + '">Ver detalhes</a></td>';
-        moradoresTbody.appendChild(tr);
-      });
+      function renderizarMoradores() {
+        var todosMoradores = obterTodosMoradores();
 
-      /* Filtros */
-      var searchInput  = document.getElementById("search-residents");
-      var statusSelect = document.getElementById("resident-status");
-      var filterBtn    = document.querySelector(".filter-bar .button-secondary");
-
-      function filtrarMoradores() {
-        var busca = searchInput ? searchInput.value.toLowerCase() : "";
-        var sit   = statusSelect ? statusSelect.value : "Todos";
-        var linhas = moradoresTbody.querySelectorAll("tr");
-        var idx = 0;
+        /* Renderizar tabela */
+        moradoresTbody.innerHTML = "";
         todosMoradores.forEach(function (m) {
-          var combinaBusca = !busca || m.nome.toLowerCase().indexOf(busca) !== -1 || m.unidade.toLowerCase().indexOf(busca) !== -1;
-          var combinaSit   = sit === "Todos" || m.situacao === sit;
-          if (linhas[idx]) {
-            linhas[idx].style.display = (combinaBusca && combinaSit) ? "" : "none";
-          }
-          idx++;
+          var statusClasse = m.situacao === "Ativo" ? "success" : "neutral";
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            '<td class="person-cell"><strong>' + m.nome + '</strong><span>' + m.email + '</span></td>' +
+            '<td>' + m.unidade + '</td>' +
+            '<td>' + m.telefone + '</td>' +
+            '<td class="status-cell"><span class="status status-' + statusClasse + '" data-morador-id="' + m.id + '" style="cursor:pointer" title="Clique para alterar">' + m.situacao + '</span></td>' +
+            '<td><a class="button button-secondary button-small" href="morador.html?id=' + m.id + '">Ver detalhes</a></td>';
+          moradoresTbody.appendChild(tr);
         });
+
+        /* ---- Dropdown de situacao ---- */
+        /* Ao clicar no badge de status, abrir dropdown com opcoes Ativo/Inativo */
+        var spansStatus = moradoresTbody.querySelectorAll(".status-cell .status");
+        var opcoesSituacao = ["Ativo", "Inativo"];
+        spansStatus.forEach(function (span) {
+          span.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var mId = parseInt(span.getAttribute("data-morador-id"), 10);
+            var morador = todosMoradores.find(function (m) { return m.id === mId; });
+            if (!morador) return;
+
+            /* Criar dropdown com opcoes */
+            var dropdown = document.createElement("div");
+            dropdown.className = "status-dropdown";
+            opcoesSituacao.forEach(function (opt) {
+              var btn = document.createElement("button");
+              btn.type = "button";
+              btn.textContent = opt;
+              if (opt === morador.situacao) btn.classList.add("active");
+              btn.addEventListener("click", function (ev) {
+                ev.stopPropagation();
+                /* Salvar mudanca no sessionStorage */
+                var chaveEd = "edicoesMoradores_" + sessao.condominio;
+                var edicoes = [];
+                try { edicoes = JSON.parse(sessionStorage.getItem(chaveEd)) || []; } catch (e) { edicoes = []; }
+                var copia = Object.assign({}, morador, { situacao: opt });
+                var idx = -1;
+                for (var i = 0; i < edicoes.length; i++) {
+                  if (edicoes[i].id === mId) { idx = i; break; }
+                }
+                if (idx !== -1) { edicoes[idx] = copia; } else { edicoes.push(copia); }
+                sessionStorage.setItem(chaveEd, JSON.stringify(edicoes));
+                dropdown.remove();
+                renderizarMoradores();
+              });
+              dropdown.appendChild(btn);
+            });
+
+            span.parentElement.style.position = "relative";
+            span.parentElement.appendChild(dropdown);
+
+            /* Fechar dropdown ao clicar fora */
+            function fechar() {
+              dropdown.remove();
+              document.removeEventListener("click", fechar);
+            }
+            setTimeout(function () {
+              document.addEventListener("click", fechar);
+            }, 0);
+          });
+        });
+
+        /* ---- Filtros ---- */
+        var searchInput = document.getElementById("search-residents");
+        var statusSelect = document.getElementById("resident-status");
+        var filterBtn = document.querySelector(".filter-bar .button-secondary");
+
+        function filtrarMoradores() {
+          var busca = searchInput ? searchInput.value.toLowerCase() : "";
+          var sit = statusSelect ? statusSelect.value : "Todos";
+          var linhas = moradoresTbody.querySelectorAll("tr");
+          var idx = 0;
+          todosMoradores.forEach(function (m) {
+            var combinaBusca = !busca || m.nome.toLowerCase().indexOf(busca) !== -1 || m.unidade.toLowerCase().indexOf(busca) !== -1;
+            var combinaSit = sit === "Todos" || m.situacao === sit;
+            if (linhas[idx]) {
+              linhas[idx].style.display = (combinaBusca && combinaSit) ? "" : "none";
+            }
+            idx++;
+          });
+        }
+
+        if (searchInput) searchInput.addEventListener("input", filtrarMoradores);
+        if (statusSelect) statusSelect.addEventListener("change", filtrarMoradores);
+        if (filterBtn) filterBtn.addEventListener("click", filtrarMoradores);
       }
 
-      if (searchInput)  searchInput.addEventListener("input", filtrarMoradores);
-      if (statusSelect) statusSelect.addEventListener("change", filtrarMoradores);
-      if (filterBtn)    filterBtn.addEventListener("click", filtrarMoradores);
+      renderizarMoradores();
     }
   }
 
@@ -386,20 +501,38 @@ document.addEventListener("DOMContentLoaded", function () {
      ============================================================ */
 
   if (pagina === "unidades") {
+    /* Buscar o tbody da tabela (vazio no HTML, JS preenche) */
     var unidadesTbody = document.querySelector(".data-table tbody");
     if (unidadesTbody) {
+      /* obterTodosMoradores() retorna todos os moradores do condominio logado */
       var todosMoradores = obterTodosMoradores();
+
+      /* unidades = lista de unidades do condominio (ex: 16 unidades) */
       var unidades = condominio.unidades;
 
-      console.log("Todos os moradores:", todosMoradores.length, todosMoradores);
+      /* ---- FILTRO DE BLOCOS ---- */
+      /* Preencher o select com os blocos do condominio (ex: A, B ou Torre 1, Torre 2) */
+      var blockSelect = document.getElementById("unit-block");
+      if (blockSelect && condominio.blocos) {
+        blockSelect.innerHTML = '<option>Todos os blocos</option>';
+        condominio.blocos.forEach(function (bloco) {
+          var opt = document.createElement("option");
+          opt.value = bloco;
+          opt.textContent = bloco;
+          blockSelect.appendChild(opt);
+        });
+      }
 
-      /* Cruzar unidades com moradores */
+      /* ---- CRUZAR UNIDADES COM MORADORES ---- */
+      /* Para cada unidade, buscar moradores ATIVOS que moram nela.
+         Retorna um array com: bloco, numero, andar, garagem, nomes, qtd, situacao */
       var unidadesInfo = unidades.map(function (u) {
         var moradoresUnidade = todosMoradores.filter(function (m) {
           return m.bloco === u.bloco && m.numero === u.numero && m.situacao === "Ativo";
         });
         var nomes = moradoresUnidade.map(function (m) { return m.nome; });
         var qtd = moradoresUnidade.length;
+        /* Se tem pelo menos 1 morador = Ocupada, senao = Disponivel */
         var situacao = qtd > 0 ? "Ocupada" : "Disponivel";
         return {
           bloco: u.bloco,
@@ -412,14 +545,15 @@ document.addEventListener("DOMContentLoaded", function () {
         };
       });
 
-      /* Renderizar tabela */
+      /* ---- RENDERIZAR TABELA ---- */
+      /* Limpar tbody e criar uma tr para cada unidade */
       unidadesTbody.innerHTML = "";
       unidadesInfo.forEach(function (u) {
         var statusClasse = u.situacao === "Ocupada" ? "success" : "warning";
         var responsavel = u.responsaveis.length > 0 ? u.responsaveis.join(", ") : "-";
         var tr = document.createElement("tr");
         tr.innerHTML =
-          '<td class="item-cell"><strong>Bloco ' + u.bloco + ', ' + u.numero + '</strong><span>' + u.andar + '</span></td>' +
+          '<td class="item-cell"><strong>' + u.bloco + ', ' + u.numero + '</strong><span>' + u.andar + '</span></td>' +
           '<td>' + responsavel + '</td>' +
           '<td>' + String(u.qtdMoradores).padStart(2, "0") + '</td>' +
           '<td><span class="status status-' + statusClasse + '">' + u.situacao + '</span></td>' +
@@ -427,28 +561,57 @@ document.addEventListener("DOMContentLoaded", function () {
         unidadesTbody.appendChild(tr);
       });
 
-      /* Stats */
-      var ocupadas = unidadesInfo.filter(function (u) { return u.situacao === "Ocupada"; }).length;
+      /* ---- STATS - Preencher os 3 cards de resumo ---- */
+      /* totalU = quantidade total de unidades do condominio */
       var totalU = unidadesInfo.length;
-      var pct = Math.round((ocupadas / totalU) * 1000) / 10;
-      var stats = document.querySelectorAll(".grid-3 .stat-card");
-      if (stats[0]) stats[0].querySelector(".stat-value").textContent = String(totalU);
-      if (stats[1]) { stats[1].querySelector(".stat-value").textContent = ocupadas + " de " + totalU; stats[1].querySelector(".stat-detail").textContent = pct + "% do total"; }
-      if (stats[2]) stats[2].querySelector(".stat-value").textContent = String(totalU - ocupadas);
 
-      /* Filtros */
-      var blockSelect    = document.getElementById("unit-block");
+      /* ocupadas = quantidade de moradores ATIVOS com unidade atribuida */
+      var ocupadas = todosMoradores.filter(function (m) { return m.situacao === "Ativo"; }).length;
+
+      /* pct = porcentagem de ocupacao (arredondado 1 casa decimal) */
+      var pct = Math.round((ocupadas / totalU) * 1000) / 10;
+
+      /* Selecionar os 3 cards de stat (grid-3 > stat-card) */
+      var stats = document.querySelectorAll(".grid-3 .stat-card");
+
+      /* Card 1: Total de unidades
+         - stat-value: total de unidades (ex: 16)
+         - stat-detail: quantidade de blocos/torres (ex: "2 blocos cadastrados") */
+      if (stats[0]) {
+        stats[0].querySelector(".stat-value").textContent = String(totalU);
+        stats[0].querySelector(".stat-detail").textContent = condominio.blocos.length + " blocos cadastrados";
+      }
+
+      /* Card 2: Unidades ocupadas
+         - stat-value: ocupadas/total (ex: 4/16)
+         - stat-detail: porcentagem (ex: "25% do total") */
+      if (stats[1]) {
+        stats[1].querySelector(".stat-value").textContent = ocupadas + "/" + totalU;
+        stats[1].querySelector(".stat-detail").textContent = pct + "% do total";
+      }
+
+      /* Card 3: Unidades disponiveis
+         - stat-value: total - ocupadas (ex: 12)
+         - stat-detail: texto fixo */
+      if (stats[2]) {
+        stats[2].querySelector(".stat-value").textContent = String(totalU - ocupadas);
+        stats[2].querySelector(".stat-detail").textContent = "Aguardando morador";
+      }
+
+      /* ---- FILTROS ---- */
+      /* Quando o usuario muda o select de ocupacao ou clica em Filtrar,
+         ocultar/mostrar linhas da tabela com base nos filtros selecionados */
       var occupancySelect = document.getElementById("unit-occupancy");
-      var filterBtnU     = document.querySelector(".filter-bar .button-secondary");
+      var filterBtnU = document.querySelector(".filter-bar .button-secondary");
 
       function filtrarUnidades() {
         var bloco = blockSelect ? blockSelect.value : "Todos os blocos";
-        var ocu   = occupancySelect ? occupancySelect.value : "Todas";
+        var ocu = occupancySelect ? occupancySelect.value : "Todas";
         var linhas = unidadesTbody.querySelectorAll("tr");
         var idx = 0;
         unidadesInfo.forEach(function (u) {
           var combinaBloco = bloco === "Todos os blocos" || u.bloco === bloco;
-          var combinaOcu   = ocu === "Todas" || u.situacao === ocu;
+          var combinaOcu = ocu === "Todas" || u.situacao === ocu;
           if (linhas[idx]) {
             linhas[idx].style.display = (combinaBloco && combinaOcu) ? "" : "none";
           }
@@ -456,9 +619,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
 
-      if (blockSelect)    blockSelect.addEventListener("change", filtrarUnidades);
+      if (blockSelect) blockSelect.addEventListener("change", filtrarUnidades);
       if (occupancySelect) occupancySelect.addEventListener("change", filtrarUnidades);
-      if (filterBtnU)     filterBtnU.addEventListener("click", filtrarUnidades);
+      if (filterBtnU) filterBtnU.addEventListener("click", filtrarUnidades);
     }
   }
 
@@ -560,17 +723,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
       /* Filtros */
       var statusFilterO = document.getElementById("occurrence-status");
-      var searchInputO  = document.getElementById("occurrence-search");
-      var filterBtnO    = document.querySelector(".filter-bar .button-secondary");
+      var searchInputO = document.getElementById("occurrence-search");
+      var filterBtnO = document.querySelector(".filter-bar .button-secondary");
 
       function filtrarOcorrencias() {
-        var sit   = statusFilterO ? statusFilterO.value : "Todos os status";
+        var sit = statusFilterO ? statusFilterO.value : "Todos os status";
         var busca = searchInputO ? searchInputO.value.toLowerCase() : "";
         var linhas = ocorrenciasTbody.querySelectorAll("tr");
         var lista = aplicarOverrides(todasOcorrencias);
         var idx = 0;
         lista.forEach(function (o) {
-          var combinaSit   = sit === "Todos os status" || o.status === sit;
+          var combinaSit = sit === "Todos os status" || o.status === sit;
           var combinaBusca = !busca || o.titulo.toLowerCase().indexOf(busca) !== -1 || o.local.toLowerCase().indexOf(busca) !== -1;
           if (linhas[idx]) {
             linhas[idx].style.display = (combinaSit && combinaBusca) ? "" : "none";
@@ -580,8 +743,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (statusFilterO) statusFilterO.addEventListener("change", filtrarOcorrencias);
-      if (searchInputO)  searchInputO.addEventListener("input", filtrarOcorrencias);
-      if (filterBtnO)    filterBtnO.addEventListener("click", filtrarOcorrencias);
+      if (searchInputO) searchInputO.addEventListener("input", filtrarOcorrencias);
+      if (filterBtnO) filterBtnO.addEventListener("click", filtrarOcorrencias);
     }
   }
 
@@ -753,12 +916,12 @@ document.addEventListener("DOMContentLoaded", function () {
       renderizarReservas();
 
       /* Filtros */
-      var areaSelect  = document.getElementById("reservation-area");
-      var dateInput   = document.getElementById("reservation-date");
-      var filterBtnR  = document.querySelector(".filter-bar .button-secondary");
+      var areaSelect = document.getElementById("reservation-area");
+      var dateInput = document.getElementById("reservation-date");
+      var filterBtnR = document.querySelector(".filter-bar .button-secondary");
 
       function filtrarReservas() {
-        var area  = areaSelect ? areaSelect.value : "Todas as areas";
+        var area = areaSelect ? areaSelect.value : "Todas as areas";
         var busca = dateInput ? dateInput.value : "";
         var linhas = reservasTbody.querySelectorAll("tr");
         var idx = 0;
@@ -773,7 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (areaSelect) areaSelect.addEventListener("change", filtrarReservas);
-      if (dateInput)  dateInput.addEventListener("input", filtrarReservas);
+      if (dateInput) dateInput.addEventListener("input", filtrarReservas);
       if (filterBtnR) filterBtnR.addEventListener("click", filtrarReservas);
     }
   }
@@ -874,9 +1037,9 @@ document.addEventListener("DOMContentLoaded", function () {
      ============================================================ */
 
   if (pagina === "morador") {
-    var params    = new URLSearchParams(window.location.search);
+    var params = new URLSearchParams(window.location.search);
     var moradorId = parseInt(params.get("id"), 10);
-    var morador   = moradorId ? buscarMorador(moradorId) : null;
+    var morador = moradorId ? buscarMorador(moradorId) : null;
 
     var tituloEl = document.querySelector(".page-header h1");
     if (!morador) {
@@ -922,7 +1085,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var items = infoGrids[1].querySelectorAll(".info-item");
       var campos = [
         { dt: "Condominio", dd: condominio.nome },
-        { dt: "Bloco e unidade", dd: "Bloco " + morador.bloco + ", apartamento " + morador.numero },
+        { dt: "Bloco e unidade", dd: formatarBloco(morador.bloco) + ", apartamento " + morador.numero },
         { dt: "Vagas de garagem", dd: morador.vagasGaragem },
         { dt: "Moradores na unidade", dd: String(morador.moradoresUnidade) + " pessoa" + (morador.moradoresUnidade !== 1 ? "s" : "") }
       ];
@@ -960,10 +1123,10 @@ document.addEventListener("DOMContentLoaded", function () {
      ============================================================ */
 
   if (pagina === "cadastro-morador") {
-    var blockSelect    = document.getElementById("block");
-    var unitSelect     = document.getElementById("unit");
-    var documentInput  = document.getElementById("document");
-    var phoneInput     = document.getElementById("phone");
+    var blockSelect = document.getElementById("block");
+    var unitSelect = document.getElementById("unit");
+    var documentInput = document.getElementById("document");
+    var phoneInput = document.getElementById("phone");
     var UNIDADES_FIXAS = ["101", "102", "201", "202", "301", "302", "401", "402"];
 
     /* --- Popular blocos e unidades dinamicamente --- */
@@ -972,7 +1135,7 @@ document.addEventListener("DOMContentLoaded", function () {
       condominio.blocos.forEach(function (bloco) {
         var opt = document.createElement("option");
         opt.value = bloco;
-        opt.textContent = "Bloco " + bloco;
+        opt.textContent = formatarBloco(bloco);
         blockSelect.appendChild(opt);
       });
     }
@@ -1039,12 +1202,12 @@ document.addEventListener("DOMContentLoaded", function () {
       formCadastro.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        var nome      = document.getElementById("full-name").value.trim();
-        var cpf       = document.getElementById("document").value.trim();
-        var email     = document.getElementById("email").value.trim();
-        var telefone  = document.getElementById("phone").value.trim();
-        var bloco     = blockSelect ? blockSelect.value : "";
-        var unidade   = unitSelect ? unitSelect.value : "";
+        var nome = document.getElementById("full-name").value.trim();
+        var cpf = document.getElementById("document").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var telefone = document.getElementById("phone").value.trim();
+        var bloco = blockSelect ? blockSelect.value : "";
+        var unidade = unitSelect ? unitSelect.value : "";
 
         if (!nome || !email || !bloco || !unidade) return;
 
@@ -1060,7 +1223,7 @@ document.addEventListener("DOMContentLoaded", function () {
           cpf: cpf || "***.***.***-00",
           telefone: telefone || "(00) 00000-0000",
           tipo: "Proprietario",
-          unidade: "Bloco " + bloco + ", " + unidade,
+          unidade: formatarBloco(bloco) + ", " + unidade,
           bloco: bloco,
           numero: unidade,
           situacao: "Ativo",
@@ -1081,14 +1244,14 @@ document.addEventListener("DOMContentLoaded", function () {
      ============================================================ */
 
   if (pagina === "editar-morador") {
-    var params    = new URLSearchParams(window.location.search);
+    var params = new URLSearchParams(window.location.search);
     var moradorId = parseInt(params.get("id"), 10);
-    var morador   = moradorId ? buscarMorador(moradorId) : null;
+    var morador = moradorId ? buscarMorador(moradorId) : null;
 
-    var blockSelectE   = document.getElementById("block");
-    var unitSelectE    = document.getElementById("unit");
+    var blockSelectE = document.getElementById("block");
+    var unitSelectE = document.getElementById("unit");
     var documentInputE = document.getElementById("document");
-    var phoneInputE    = document.getElementById("phone");
+    var phoneInputE = document.getElementById("phone");
     var UNIDADES_FIXAS = ["101", "102", "201", "202", "301", "302", "401", "402"];
 
     if (!morador) {
@@ -1109,7 +1272,7 @@ document.addEventListener("DOMContentLoaded", function () {
         condominio.blocos.forEach(function (bloco) {
           var opt = document.createElement("option");
           opt.value = bloco;
-          opt.textContent = "Bloco " + bloco;
+          opt.textContent = formatarBloco(bloco);
           if (bloco === morador.bloco) opt.selected = true;
           blockSelectE.appendChild(opt);
         });
@@ -1180,12 +1343,12 @@ document.addEventListener("DOMContentLoaded", function () {
         formEditar.addEventListener("submit", function (event) {
           event.preventDefault();
 
-          var nome     = nomeInput ? nomeInput.value.trim() : "";
-          var cpf      = documentInputE ? documentInputE.value.trim() : "";
-          var email    = emailInput ? emailInput.value.trim() : "";
+          var nome = nomeInput ? nomeInput.value.trim() : "";
+          var cpf = documentInputE ? documentInputE.value.trim() : "";
+          var email = emailInput ? emailInput.value.trim() : "";
           var telefone = phoneInputE ? phoneInputE.value.trim() : "";
-          var bloco    = blockSelectE ? blockSelectE.value : "";
-          var unidade  = unitSelectE ? unitSelectE.value : "";
+          var bloco = blockSelectE ? blockSelectE.value : "";
+          var unidade = unitSelectE ? unitSelectE.value : "";
 
           if (!nome || !email || !bloco || !unidade) return;
 
@@ -1196,7 +1359,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cpf: cpf || "***.***.***-00",
             telefone: telefone || "(00) 00000-0000",
             tipo: morador.tipo,
-            unidade: "Bloco " + bloco + ", " + unidade,
+            unidade: formatarBloco(bloco) + ", " + unidade,
             bloco: bloco,
             numero: unidade,
             situacao: morador.situacao,

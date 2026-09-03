@@ -42,10 +42,10 @@
             =</button
           ><span class="topbar-context">Mapa do condominio</span>
           <div class="user-summary" data-user-menu>
-            <span class="avatar" aria-hidden="true">AS</span>
+            <span class="avatar" aria-hidden="true" data-template="sessao.iniciais"></span>
             <div>
-              <span class="user-name">Vinicius</span
-              ><span class="user-role">Sindico</span>
+              <span class="user-name" data-template="sessao.nome"></span
+              ><span class="user-role" data-template="sessao.cargo"></span>
             </div>
             <nav class="user-dropdown" aria-label="Menu do usuario">
               <button type="button" data-action="theme">Mudar tema</button>
@@ -66,28 +66,26 @@
           <section class="grid grid-3" aria-label="Resumo das unidades">
             <article class="card stat-card">
               <p class="stat-label">Total de unidades</p>
-              <p class="stat-value">16</p>
-              <p class="stat-detail">2 blocos cadastrados</p>
+              <p class="stat-value">-</p>
+              <p class="stat-detail">-</p>
             </article>
             <article class="card stat-card">
               <p class="stat-label">Ocupadas</p>
-              <p class="stat-value">0 de 16</p>
-              <p class="stat-detail">0% do total</p>
+              <p class="stat-value">-</p>
+              <p class="stat-detail">-</p>
             </article>
             <article class="card stat-card">
               <p class="stat-label">Disponiveis</p>
-              <p class="stat-value">16</p>
-              <p class="stat-detail">Aguardando morador</p>
+              <p class="stat-value">-</p>
+              <p class="stat-detail">-</p>
             </article>
           </section>
           <section class="card stack-top-20">
             <div class="filter-bar">
               <div class="form-field">
                 <label for="unit-block">Bloco</label
-                ><select id="unit-block">
+                >                <select id="unit-block">
                   <option>Todos os blocos</option>
-                  <option>Bloco A</option>
-                  <option>Bloco B</option>
                 </select>
               </div>
               <div class="form-field">
@@ -113,46 +111,7 @@
                     <th>Garagem</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td class="item-cell">
-                      <strong>Bloco A, 101</strong><span>Primeiro andar</span>
-                    </td>
-                    <td>Beatriz Martins</td>
-                    <td>02</td>
-                    <td><span class="status status-success">Ocupada</span></td>
-                    <td>01 vaga</td>
-                  </tr>
-                  <tr>
-                    <td class="item-cell">
-                      <strong>Bloco A, 302</strong><span>Terceiro andar</span>
-                    </td>
-                    <td>Marina Costa</td>
-                    <td>03</td>
-                    <td><span class="status status-success">Ocupada</span></td>
-                    <td>02 vagas</td>
-                  </tr>
-                  <tr>
-                    <td class="item-cell">
-                      <strong>Bloco B, 204</strong><span>Segundo andar</span>
-                    </td>
-                    <td>Rafael Almeida</td>
-                    <td>02</td>
-                    <td><span class="status status-success">Ocupada</span></td>
-                    <td>01 vaga</td>
-                  </tr>
-                  <tr>
-                    <td class="item-cell">
-                      <strong>Bloco B, 401</strong><span>Quarto andar</span>
-                    </td>
-                    <td>Joao Ribeiro</td>
-                    <td>00</td>
-                    <td>
-                      <span class="status status-warning">Disponivel</span>
-                    </td>
-                    <td>01 vaga</td>
-                  </tr>
-                </tbody>
+                <tbody data-dynamic="unidades"></tbody>
               </table>
             </div>
           </section>
