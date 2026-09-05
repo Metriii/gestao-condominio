@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${morador.nome} + ' | CondoGestor'">Morador | CondoGestor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" data-sidebar id="main-navigation">
+            <a class="brand" th:href="@{/}">
+                <span class="brand-mark" aria-hidden="true">C</span>
+                <span><span class="brand-name">CondoGestor</span><span class="brand-caption">Sistema de condomínios</span></span>
+            </a>
+            <p class="sidebar-section-label">Menu principal</p>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a th:href="@{/}">Dashboard</a>
+                <a th:href="@{/moradores}" aria-current="page">Moradores</a>
+                <a th:href="@{/unidades}">Unidades</a>
+                <a th:href="@{/ocorrencias}">Ocorrências</a>
+                <a th:href="@{/reservas}">Reservas</a>
+            </nav>
+            <div class="sidebar-footer">Dados demonstrativos da V1</div>
+        </aside>
+
+        <div class="overlay" data-overlay></div>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false"
+                    aria-label="Abrir menu">
+                    =
+                </button>
+                <span class="topbar-context">Detalhes do morador</span>
+                <div class="user-summary" data-user-menu>
+                    <span class="avatar" aria-hidden="true" th:text="${#strings.substring(usuario.nome, 0, 2)}">VI</span>
+                    <div>
+                        <span class="user-name" th:text="${usuario.nome}">Vinicius</span><span class="user-role">Síndico</span>
+                    </div>
+                    <nav class="user-dropdown" aria-label="Menu do usuario">
+                        <button type="button" data-action="theme">Mudar tema</button>
+                        <a th:href="@{/logout}"><button type="button">Sair da conta</button></a>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <header class="page-header">
+                    <div>
+                        <p class="breadcrumb">Início / Moradores / <span th:text="${morador.nome}">Nome</span></p>
+                        <h1 th:text="${morador.nome}">Nome do Morador</h1>
+                        <p>Detalhes do morador selecionado.</p>
+                    </div>
+                    <div class="header-actions">
+                        <a class="button button-primary" th:href="@{/moradores/{id}/editar(id=${morador.id})}">Editar</a>
+                        <form th:action="@{/moradores/{id}/excluir(id=${morador.id})}" method="post" style="display:inline" onsubmit="return confirm('Tem certeza que deseja excluir este morador?')">
+                            <button class="button button-danger" type="submit">Excluir</button>
+                        </form>
+                        <a class="button button-secondary" th:href="@{/moradores}">Voltar</a>
+                    </div>
+                </header>
+
+                <div class="grid grid-2 stack-top-20">
+                    <section class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2>Dados pessoais</h2>
+                                <p>Informações básicas do morador.</p>
+                            </div>
+                            <span class="status status-success" th:text="${morador.situacao}">Ativo</span>
+                        </div>
+                        <div class="card-body">
+                            <dl class="info-grid">
+                                <div class="info-item">
+                                    <dt>Nome completo</dt>
+                                    <dd th:text="${morador.nome}">Nome</dd>
+                                </div>
+                                <div class="info-item">
+                                    <dt>CPF</dt>
+                                    <dd th:text="${morador.cpf}">CPF</dd>
+                                </div>
+                                <div class="info-item">
+                                    <dt>E-mail</dt>
+                                    <dd th:text="${morador.email}">Email</dd>
+                                </div>
+                                <div class="info-item">
+                                    <dt>Telefone</dt>
+                                    <dd th:text="${morador.telefone}">Telefone</dd>
+                                </div>
+                                <div class="info-item">
+                                    <dt>Tipo de morador</dt>
+                                    <dd th:text="${morador.tipo}">Tipo</dd>
+                                </div>
+                                <div class="info-item">
+                                    <dt>Cadastro realizado</dt>
+                                    <dd th:text="${morador.dataCadastro}">Data</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2>Unidade vinculada</h2>
+                                <p>Informações da unidade do morador.</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <dl class="info-grid">
+                                <div class="info-item">
+                                    <dt>Bloco e unidade</dt>
+                                    <dd><span th:text="${morador.bloco}">Bloco</span>, apartamento <span th:text="${morador.numero}">Número</span></dd>
+                                </div>
+                                <div class="info-item">
+                                    <dt>Vagas de garagem</dt>
+                                    <dd th:text="${morador.vagasGaragem}">Vagas</dd>
+                                </div>
+                                <div class="info-item">
+                                    <dt>Moradores na unidade</dt>
+                                    <dd><span th:text="${morador.moradoresUnidade}">0</span> pessoa(s)</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

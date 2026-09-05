@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nova reserva | CondoGestor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" data-sidebar id="main-navigation">
+            <a class="brand" th:href="@{/}">
+                <span class="brand-mark" aria-hidden="true">C</span>
+                <span><span class="brand-name">CondoGestor</span><span class="brand-caption">Sistema de condomínios</span></span>
+            </a>
+            <p class="sidebar-section-label">Menu principal</p>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a th:href="@{/}">Dashboard</a>
+                <a th:href="@{/moradores}">Moradores</a>
+                <a th:href="@{/unidades}">Unidades</a>
+                <a th:href="@{/ocorrencias}">Ocorrências</a>
+                <a th:href="@{/reservas}" aria-current="page">Reservas</a>
+            </nav>
+            <div class="sidebar-footer">Dados demonstrativos da V1</div>
+        </aside>
+
+        <div class="overlay" data-overlay></div>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false"
+                    aria-label="Abrir menu">
+                    =
+                </button>
+                <span class="topbar-context">Nova reserva</span>
+                <div class="user-summary" data-user-menu>
+                    <span class="avatar" aria-hidden="true" th:text="${#strings.substring(usuario.nome, 0, 2)}">VI</span>
+                    <div>
+                        <span class="user-name" th:text="${usuario.nome}">Vinicius</span><span class="user-role">Síndico</span>
+                    </div>
+                    <nav class="user-dropdown" aria-label="Menu do usuario">
+                        <button type="button" data-action="theme">Mudar tema</button>
+                        <a th:href="@{/logout}"><button type="button">Sair da conta</button></a>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <header class="page-header">
+                    <div>
+                        <p class="breadcrumb">Início / Reservas / Nova reserva</p>
+                        <h1>Nova reserva</h1>
+                        <p>Preencha os dados para criar uma nova reserva.</p>
+                    </div>
+                </header>
+                <section class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Dados da reserva</h2>
+                            <p>Preencha todos os campos obrigatórios.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/reservas}" th:object="${reserva}" method="post">
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="area">Área comum</label>
+                                    <select id="area" th:field="*{area}" required>
+                                        <option value="">Selecione</option>
+                                        <option th:each="area : ${areasComuns}" th:value="${area}" th:text="${area}">Área</option>
+                                    </select>
+                                </div>
+                                <div class="form-field">
+                                    <label for="solicitante">Solicitante</label>
+                                    <input id="solicitante" th:field="*{solicitante}" type="text" placeholder="Ex.: Marina Costa, 302" required />
+                                </div>
+                                <div class="form-field">
+                                    <label for="data">Data</label>
+                                    <input id="data" th:field="*{data}" type="date" required />
+                                </div>
+                                <div class="form-field">
+                                    <label for="horario">Horário</label>
+                                    <input id="horario" th:field="*{horario}" type="text" placeholder="Ex.: 18:00 - 23:00" required />
+                                </div>
+                                <div class="form-field">
+                                    <label for="finalidade">Finalidade</label>
+                                    <input id="finalidade" th:field="*{finalidade}" type="text" placeholder="Ex.: Aniversário" required />
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <a class="button button-secondary" th:href="@{/reservas}">Cancelar</a>
+                                <button class="button button-primary" type="submit">Criar reserva</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

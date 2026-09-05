@@ -1,0 +1,11 @@
+target/
+*.class
+*.jar
+*.war
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.vscode/
+spring-boot-thymeleaf-migration.skill.md

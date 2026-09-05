@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ocorrências | CondoGestor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" data-sidebar id="main-navigation">
+            <a class="brand" th:href="@{/}">
+                <span class="brand-mark" aria-hidden="true">C</span>
+                <span><span class="brand-name">CondoGestor</span><span class="brand-caption">Sistema de condomínios</span></span>
+            </a>
+            <p class="sidebar-section-label">Menu principal</p>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a th:href="@{/}">Dashboard</a>
+                <a th:href="@{/moradores}">Moradores</a>
+                <a th:href="@{/unidades}">Unidades</a>
+                <a th:href="@{/ocorrencias}" aria-current="page">Ocorrências</a>
+                <a th:href="@{/reservas}">Reservas</a>
+            </nav>
+            <div class="sidebar-footer">Dados demonstrativos da V1</div>
+        </aside>
+
+        <div class="overlay" data-overlay></div>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false"
+                    aria-label="Abrir menu">
+                    =
+                </button>
+                <span class="topbar-context" th:text="'Ocorrências - ' + (${usuario.condominio} == 'jardim' ? 'Residencial Jardim' : 'Condomínio Parque Verde')">Gestão de ocorrências</span>
+                <div class="user-summary" data-user-menu>
+                    <span class="avatar" aria-hidden="true" th:text="${#strings.substring(usuario.nome, 0, 2)}">VI</span>
+                    <div>
+                        <span class="user-name" th:text="${usuario.nome}">Vinicius</span><span class="user-role">Síndico</span>
+                    </div>
+                    <nav class="user-dropdown" aria-label="Menu do usuario">
+                        <button type="button" data-action="theme">Mudar tema</button>
+                        <a th:href="@{/logout}"><button type="button">Sair da conta</button></a>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <header class="page-header">
+                    <div>
+                        <p class="breadcrumb">Início / Ocorrências</p>
+                        <h1>Ocorrências</h1>
+                        <p>Acompanhe as ocorrências registradas no condomínio.</p>
+                    </div>
+                    <a class="button button-primary" th:href="@{/ocorrencias/nova}">Nova ocorrência</a>
+                </header>
+
+                <section class="grid grid-3" aria-label="Resumo das ocorrências">
+                    <article class="card stat-card">
+                        <p class="stat-label">Total</p>
+                        <p class="stat-value" th:text="${totalOcorrencias}">00</p>
+                        <p class="stat-detail">Ocorrências registradas</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="stat-label">Em análise</p>
+                        <p class="stat-value" th:text="${ocorrenciasEmAnalise}">00</p>
+                        <p class="stat-detail">Aguardando análise</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="stat-label">Em andamento</p>
+                        <p class="stat-value" th:text="${ocorrenciasEmAndamento}">00</p>
+                        <p class="stat-detail">Acompanhamento ativo</p>
+                    </article>
+                </section>
+
+                <section class="card stack-top-20">
+                    <div class="card-header">
+                        <div>
+                            <h2>Lista de ocorrências</h2>
+                            <p>Todas as ocorrências do condomínio.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Ocorrência</th>
+                                    <th>Local</th>
+                                    <th>Data</th>
+                                    <th>Responsável</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="ocorrencia : ${ocorrencias}">
+                                    <td class="item-cell"><strong th:text="${ocorrencia.titulo}">Título</strong><span>Registro #<span th:text="${#numbers.formatInteger(ocorrencia.id, 3, 'COMMA')}">000</span></span></td>
+                                    <td th:text="${ocorrencia.local}">Local</td>
+                                    <td th:text="${ocorrencia.data}">Data</td>
+                                    <td th:text="${ocorrencia.responsavel}">Responsável</td>
+                                    <td>
+                                        <select class="status-select" th:attr="data-toggle-status-ocorrencia=${ocorrencia.id}" th:classappend="${ocorrencia.status == 'Em andamento'} ? 'status-success' : (${ocorrencia.status == 'Em analise'} ? 'status-warning' : 'status-neutral')">
+                                            <option value="Em analise" th:selected="${ocorrencia.status == 'Em analise'}">Em análise</option>
+                                            <option value="Em andamento" th:selected="${ocorrencia.status == 'Em andamento'}">Em andamento</option>
+                                            <option value="Concluido" th:selected="${ocorrencia.status == 'Concluido'}">Concluído</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

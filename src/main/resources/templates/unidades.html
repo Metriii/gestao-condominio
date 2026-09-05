@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unidades | CondoGestor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" data-sidebar id="main-navigation">
+            <a class="brand" th:href="@{/}">
+                <span class="brand-mark" aria-hidden="true">C</span>
+                <span><span class="brand-name">CondoGestor</span><span class="brand-caption">Sistema de condomínios</span></span>
+            </a>
+            <p class="sidebar-section-label">Menu principal</p>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a th:href="@{/}">Dashboard</a>
+                <a th:href="@{/moradores}">Moradores</a>
+                <a th:href="@{/unidades}" aria-current="page">Unidades</a>
+                <a th:href="@{/ocorrencias}">Ocorrências</a>
+                <a th:href="@{/reservas}">Reservas</a>
+            </nav>
+            <div class="sidebar-footer">Dados demonstrativos da V1</div>
+        </aside>
+
+        <div class="overlay" data-overlay></div>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false"
+                    aria-label="Abrir menu">
+                    =
+                </button>
+                <span class="topbar-context" th:text="'Unidades - ' + (${usuario.condominio} == 'jardim' ? 'Residencial Jardim' : 'Condomínio Parque Verde')">Gestão de unidades</span>
+                <div class="user-summary" data-user-menu>
+                    <span class="avatar" aria-hidden="true" th:text="${#strings.substring(usuario.nome, 0, 2)}">VI</span>
+                    <div>
+                        <span class="user-name" th:text="${usuario.nome}">Vinicius</span><span class="user-role">Síndico</span>
+                    </div>
+                    <nav class="user-dropdown" aria-label="Menu do usuario">
+                        <button type="button" data-action="theme">Mudar tema</button>
+                        <a th:href="@{/logout}"><button type="button">Sair da conta</button></a>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <header class="page-header">
+                    <div>
+                        <p class="breadcrumb">Início / Unidades</p>
+                        <h1>Unidades</h1>
+                        <p>Visualize e gerencie as unidades do condomínio.</p>
+                    </div>
+                </header>
+
+                <section class="grid grid-3" aria-label="Resumo das unidades">
+                    <article class="card stat-card">
+                        <p class="stat-label">Total de unidades</p>
+                        <p class="stat-value" th:text="${totalUnidades}">16</p>
+                        <p class="stat-detail">Unidades cadastradas</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="stat-label">Unidades ocupadas</p>
+                        <p class="stat-value" th:text="${unidadesOcupadas}">4</p>
+                        <p class="stat-detail">Com moradores</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="stat-label">Unidades disponíveis</p>
+                        <p class="stat-value" th:text="${unidadesDisponiveis}">12</p>
+                        <p class="stat-detail">Aguardando morador</p>
+                    </article>
+                </section>
+
+                <section class="card stack-top-20">
+                    <div class="card-header">
+                        <div>
+                            <h2>Lista de unidades</h2>
+                            <p>Todas as unidades do condomínio.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Unidade</th>
+                                    <th>Responsável</th>
+                                    <th>Moradores</th>
+                                    <th>Situação</th>
+                                    <th>Garagem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="unidade : ${unidades}">
+                                    <td class="item-cell"><strong th:text="${unidade.bloco} + ', ' + ${unidade.numero}">Unidade</strong><span th:text="${unidade.andar}">Andar</span></td>
+                                    <td th:text="${responsaveis[unidade.bloco + unidade.numero]}">-</td>
+                                    <td th:text="${qtdMoradores[unidade.bloco + unidade.numero]}">0</td>
+                                    <td><span class="status" th:classappend="${unidade.situacao == 'Ocupada'} ? 'status-success' : 'status-warning'" th:text="${unidade.situacao}">Situação</span></td>
+                                    <td th:text="${unidade.garagem}">Garagem</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | CondoGestor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" data-sidebar id="main-navigation">
+            <a class="brand" th:href="@{/}">
+                <span class="brand-mark" aria-hidden="true">C</span>
+                <span><span class="brand-name">CondoGestor</span><span class="brand-caption">Sistema de condomínios</span></span>
+            </a>
+            <p class="sidebar-section-label">Menu principal</p>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a th:href="@{/}" aria-current="page">Dashboard</a>
+                <a th:href="@{/moradores}">Moradores</a>
+                <a th:href="@{/unidades}">Unidades</a>
+                <a th:href="@{/ocorrencias}">Ocorrências</a>
+                <a th:href="@{/reservas}">Reservas</a>
+            </nav>
+            <div class="sidebar-footer">Dados demonstrativos da V1</div>
+        </aside>
+
+        <div class="overlay" data-overlay></div>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false"
+                    aria-label="Abrir menu">
+                    =
+                </button>
+                <span class="topbar-context" th:text="'Visão geral - ' + (${usuario.condominio} == 'jardim' ? 'Residencial Jardim' : 'Condomínio Parque Verde')">Visão geral do condomínio</span>
+                <div class="user-summary" data-user-menu>
+                    <span class="avatar" aria-hidden="true" th:text="${#strings.substring(usuario.nome, 0, 2)}">VI</span>
+                    <div>
+                        <span class="user-name" th:text="${usuario.nome}">Vinicius</span><span class="user-role">Síndico</span>
+                    </div>
+                    <nav class="user-dropdown" aria-label="Menu do usuario">
+                        <button type="button" data-action="theme">Mudar tema</button>
+                        <a th:href="@{/logout}"><button type="button">Sair da conta</button></a>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <header class="page-header">
+                    <div>
+                        <p class="breadcrumb">Início / Dashboard</p>
+                        <h1>Bom dia, <span th:text="${usuario.nome}">Vinicius</span>.</h1>
+                        <p>Acompanhe os principais movimentos do condomínio em um só lugar.</p>
+                    </div>
+                </header>
+                <section class="grid grid-4" aria-label="Indicadores do condomínio">
+                    <article class="card stat-card">
+                        <p class="stat-label">Moradores</p>
+                        <p class="stat-value" th:text="${moradoresAtivos}">00</p>
+                        <p class="stat-detail">Ativos no sistema</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="stat-label">Unidades ocupadas</p>
+                        <p class="stat-value"><span th:text="${unidadesOcupadas}">0</span>/<span th:text="${totalUnidades}">8</span></p>
+                        <p class="stat-detail">Ocupação atual</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="stat-label">Ocorrências abertas</p>
+                        <p class="stat-value" th:text="${ocorrenciasAbertas}">00</p>
+                        <p class="stat-detail">Aguardando solução</p>
+                    </article>
+                    <article class="card stat-card">
+                        <p class="stat-label">Reservas</p>
+                        <p class="stat-value" th:text="${reservasHoje}">00</p>
+                        <p class="stat-detail">Reservas hoje</p>
+                    </article>
+                </section>
+                <section class="card stack-top-20">
+                    <div class="card-header">
+                        <div>
+                            <h2>Moradores</h2>
+                            <p>Pessoas vinculadas às unidades do condomínio.</p>
+                        </div>
+                        <a th:href="@{/moradores}">Ver todos</a>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Morador</th>
+                                    <th>Unidade</th>
+                                    <th>Telefone</th>
+                                    <th>Situação</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="morador : ${moradores}">
+                                    <td class="person-cell"><strong th:text="${morador.nome}">Nome</strong><span th:text="${morador.email}">email</span></td>
+                                    <td th:text="${morador.unidade}">Unidade</td>
+                                    <td th:text="${morador.telefone}">Telefone</td>
+                                    <td><span class="status status-success" th:text="${morador.situacao}">Ativo</span></td>
+                                    <td><a class="button button-secondary button-small" th:href="@{/moradores/{id}(id=${morador.id})}">Ver detalhes</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="card stack-top-20">
+                    <div class="card-header">
+                        <div>
+                            <h2>Reservas</h2>
+                            <p>Reservas de áreas comuns do condomínio.</p>
+                        </div>
+                        <a th:href="@{/reservas}">Ver todas</a>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Área</th>
+                                    <th>Solicitante</th>
+                                    <th>Data/Horário</th>
+                                    <th>Finalidade</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="reserva : ${reservas}">
+                                    <td class="item-cell"><strong th:text="${reserva.area}">Área</strong><span th:text="${reserva.areaInfo}">Info</span></td>
+                                    <td th:text="${reserva.solicitante}">Solicitante</td>
+                                    <td><span th:text="${reserva.data}">Data</span><br /><span th:text="${reserva.horario}">Horário</span></td>
+                                    <td th:text="${reserva.finalidade}">Finalidade</td>
+                                    <td><span class="status" th:classappend="${reserva.status == 'Confirmada'} ? 'status-success' : 'status-warning'" th:text="${reserva.status}">Status</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

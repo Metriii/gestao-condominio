@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Novo morador | CondoGestor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" data-sidebar id="main-navigation">
+            <a class="brand" th:href="@{/}">
+                <span class="brand-mark" aria-hidden="true">C</span>
+                <span><span class="brand-name">CondoGestor</span><span class="brand-caption">Sistema de condomínios</span></span>
+            </a>
+            <p class="sidebar-section-label">Menu principal</p>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a th:href="@{/}">Dashboard</a>
+                <a th:href="@{/moradores}" aria-current="page">Moradores</a>
+                <a th:href="@{/unidades}">Unidades</a>
+                <a th:href="@{/ocorrencias}">Ocorrências</a>
+                <a th:href="@{/reservas}">Reservas</a>
+            </nav>
+            <div class="sidebar-footer">Dados demonstrativos da V1</div>
+        </aside>
+
+        <div class="overlay" data-overlay></div>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false"
+                    aria-label="Abrir menu">
+                    =
+                </button>
+                <span class="topbar-context">Cadastro e relacionamento</span>
+                <div class="user-summary" data-user-menu>
+                    <span class="avatar" aria-hidden="true" th:text="${#strings.substring(usuario.nome, 0, 2)}">VI</span>
+                    <div>
+                        <span class="user-name" th:text="${usuario.nome}">Vinicius</span><span class="user-role">Síndico</span>
+                    </div>
+                    <nav class="user-dropdown" aria-label="Menu do usuario">
+                        <button type="button" data-action="theme">Mudar tema</button>
+                        <a th:href="@{/logout}"><button type="button">Sair da conta</button></a>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <header class="page-header">
+                    <div>
+                        <p class="breadcrumb">Início / Moradores / Novo cadastro</p>
+                        <h1>Novo morador</h1>
+                        <p>Preencha os dados abaixo para cadastrar um novo morador.</p>
+                    </div>
+                </header>
+                <section class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Dados do morador</h2>
+                            <p>Preencha todos os campos obrigatórios.</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/moradores}" th:object="${morador}" method="post">
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="nome">Nome completo</label>
+                                    <input id="nome" th:field="*{nome}" type="text" placeholder="Ex.: Marina Costa" required />
+                                </div>
+                                <div class="form-field">
+                                    <label for="cpf">CPF</label>
+                                    <input id="cpf" th:field="*{cpf}" type="text" placeholder="000.000.000-00" />
+                                </div>
+                                <div class="form-field">
+                                    <label for="email">E-mail</label>
+                                    <input id="email" th:field="*{email}" type="email" placeholder="morador@email.com" required />
+                                </div>
+                                <div class="form-field">
+                                    <label for="telefone">Telefone</label>
+                                    <input id="telefone" th:field="*{telefone}" type="tel" placeholder="(00) 00000-0000" />
+                                </div>
+                                <div class="form-field">
+                                    <label for="bloco">Bloco</label>
+                                    <select id="bloco" th:field="*{bloco}">
+                                        <option value="">Selecione</option>
+                                        <option th:each="bloco : ${blocos}" th:value="${bloco}" th:text="${bloco}">Bloco</option>
+                                    </select>
+                                </div>
+                                <div class="form-field">
+                                    <label for="numero">Unidade</label>
+                                    <select id="numero" th:field="*{numero}">
+                                        <option value="">Selecione</option>
+                                        <option th:each="numero : ${numeros}" th:value="${numero}" th:text="${numero}">Unidade</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <a class="button button-secondary" th:href="@{/moradores}">Cancelar</a>
+                                <button class="button button-primary" type="submit">Salvar cadastro</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

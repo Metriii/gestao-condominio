@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moradores | CondoGestor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" data-sidebar id="main-navigation">
+            <a class="brand" th:href="@{/}">
+                <span class="brand-mark" aria-hidden="true">C</span>
+                <span><span class="brand-name">CondoGestor</span><span class="brand-caption">Sistema de condomínios</span></span>
+            </a>
+            <p class="sidebar-section-label">Menu principal</p>
+            <nav class="main-nav" aria-label="Menu principal">
+                <a th:href="@{/}">Dashboard</a>
+                <a th:href="@{/moradores}" aria-current="page">Moradores</a>
+                <a th:href="@{/unidades}">Unidades</a>
+                <a th:href="@{/ocorrencias}">Ocorrências</a>
+                <a th:href="@{/reservas}">Reservas</a>
+            </nav>
+            <div class="sidebar-footer">Dados demonstrativos da V1</div>
+        </aside>
+
+        <div class="overlay" data-overlay></div>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" type="button" data-menu-toggle aria-controls="main-navigation" aria-expanded="false"
+                    aria-label="Abrir menu">
+                    =
+                </button>
+                <span class="topbar-context" th:text="'Moradores - ' + (${usuario.condominio} == 'jardim' ? 'Residencial Jardim' : 'Condomínio Parque Verde')">Cadastro e relacionamento</span>
+                <div class="user-summary" data-user-menu>
+                    <span class="avatar" aria-hidden="true" th:text="${#strings.substring(usuario.nome, 0, 2)}">VI</span>
+                    <div>
+                        <span class="user-name" th:text="${usuario.nome}">Vinicius</span><span class="user-role">Síndico</span>
+                    </div>
+                    <nav class="user-dropdown" aria-label="Menu do usuario">
+                        <button type="button" data-action="theme">Mudar tema</button>
+                        <a th:href="@{/logout}"><button type="button">Sair da conta</button></a>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <header class="page-header">
+                    <div>
+                        <p class="breadcrumb">Início / Moradores</p>
+                        <h1>Moradores</h1>
+                        <p>Gerencie os moradores do condomínio.</p>
+                    </div>
+                    <a class="button button-primary" th:href="@{/moradores/novo}">Novo morador</a>
+                </header>
+                <section class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Lista de moradores</h2>
+                            <p>Todos os moradores cadastrados.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Morador</th>
+                                    <th>Unidade</th>
+                                    <th>Telefone</th>
+                                    <th>Situação</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="morador : ${moradores}">
+                                    <td class="person-cell"><strong th:text="${morador.nome}">Nome</strong><span th:text="${morador.email}">email</span></td>
+                                    <td th:text="${morador.unidade}">Unidade</td>
+                                    <td th:text="${morador.telefone}">Telefone</td>
+                                    <td>
+                                        <select class="status-select" th:attr="data-toggle-situacao=${morador.id}" th:classappend="${morador.situacao == 'Ativo'} ? 'status-success' : 'status-warning'">
+                                            <option value="Ativo" th:selected="${morador.situacao == 'Ativo'}">Ativo</option>
+                                            <option value="Inativo" th:selected="${morador.situacao == 'Inativo'}">Inativo</option>
+                                        </select>
+                                    </td>
+                                    <td><a class="button button-secondary button-small" th:href="@{/moradores/{id}(id=${morador.id})}">Ver detalhes</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
